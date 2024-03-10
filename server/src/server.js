@@ -1,14 +1,14 @@
 import 'express-async-errors';
 import AppError from './utils/AppError.js';
 import express from 'express';
-//import routes from './routes/index.js';
+import routes from './routes/index.js';
 import cors from 'cors';
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
-//app.use(routes);
+app.use(routes);
 
 app.use((error, request, response, next) => {
     if(error instanceof AppError){

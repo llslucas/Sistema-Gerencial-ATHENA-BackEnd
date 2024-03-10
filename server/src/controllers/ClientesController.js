@@ -32,7 +32,12 @@ export default class ClientesController{
     }
 
     async index(request, response){
+<<<<<<< HEAD
         const { nome } = request.query; 
+=======
+        const { nome } = request.query;      
+        const { user_id } = request.params;
+>>>>>>> 75feff4298ab86d316458327dc395761af9615e2
         const search = nome ?? '';        
 
         const clientes = await knex("clientes")

@@ -1,4 +1,5 @@
 import knex from "../database/knex/index.js";
+import AppError from "../utils/AppError.js";
 
 export default class ClientesController{
     async create(request,response){
@@ -18,17 +19,23 @@ export default class ClientesController{
 
         const cliente = await knex("clientes").where({ id }).first();
 
-        return response.json({
-            cliente
-        });
+        if(cliente){
+            return response.json(cliente);
+        }else{
+            throw new AppError("O Cliente especificado não existe.", 404);
+        };
     }
 
     async delete(request, response){
         const { id } = request.params;
 
-        await knex("clientes").where({ id }).delete();
+        const deleted = await knex("clientes").where({ id }).delete();
 
-        return response.json();
+        if(deleted){
+            return response.json();
+        }else{
+            throw new AppError("O Cliente especificado não existe.", 404);
+        }
     }
 
     async index(request, response){
@@ -42,5 +49,23 @@ export default class ClientesController{
         return response.json(clientes);            
     }
 
-    
+    async update(request, response){
+        const { id } = request.params;
+        const { nome, telefone, email } = request.body;
+
+        const cliente = await knex("clientes").where({id}).first();
+
+        cliente.nome = nome ?? cliente.nome;
+        cliente.telefone = telefone ?? cliente.telefone;
+        cliente.email = email ?? cliente.email;        
+
+        if(!cliente){
+            throw new AppError("O Cliente especificado não existe.", 404);
+        }
+
+        await knex("clientes").update(cliente).where({ id });
+        await knex("clientes").update({updated_at: knex.fn.now()}).where({ id });
+
+        return response.json("Cliente alterado com sucesso!");  
+    }  
 }

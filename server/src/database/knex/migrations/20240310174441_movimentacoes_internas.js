@@ -3,11 +3,10 @@
  * @returns { Promise<void> }
  */
 export function up(knex) {
-    return knex.schema.createTable("vendas", table => {
-        table.increments("id");
-        table.integer("id_revendedor").references("id").inTable("revendedores");
-        table.integer("id_cliente").references("id").inTable("clientes");
-        table.text("tipo_pagamento");
+    return knex.schema.createTable("movimentacoes", table => {
+        table.increments("id");        
+        table.text("motivo");
+        table.date("data_movimentacao");
 
         table.timestamp("created_at").defaultTo(knex.fn.now());
         table.timestamp("updated_at").defaultTo(knex.fn.now());
@@ -19,5 +18,5 @@ export function up(knex) {
  * @returns { Promise<void> }
  */
 export function down(knex) {
-    return knex.schema.dropTable("vendas");
+    return knex.schema.dropTable("movimentacoes");
 };

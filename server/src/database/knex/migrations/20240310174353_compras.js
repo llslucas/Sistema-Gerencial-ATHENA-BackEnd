@@ -7,6 +7,7 @@ export function up(knex) {
         table.increments("id");
         table.integer("numero_nota");
         table.text("fornecedor");
+        table.date("data_compra");
 
         table.timestamp("created_at").defaultTo(knex.fn.now());
         table.timestamp("updated_at").defaultTo(knex.fn.now());

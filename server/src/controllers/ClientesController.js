@@ -53,15 +53,15 @@ export default class ClientesController{
         const { id } = request.params;
         const { nome, telefone, email } = request.body;
 
-        const cliente = await knex("clientes").where({id}).first();
-
-        cliente.nome = nome ?? cliente.nome;
-        cliente.telefone = telefone ?? cliente.telefone;
-        cliente.email = email ?? cliente.email;        
+        const cliente = await knex("clientes").where({id}).first();            
 
         if(!cliente){
             throw new AppError("O Cliente especificado não existe.", 404);
         }
+
+        cliente.nome = nome ?? cliente.nome;
+        cliente.telefone = telefone ?? cliente.telefone;
+        cliente.email = email ?? cliente.email;    
 
         await knex("clientes").update(cliente).where({ id });
         await knex("clientes").update({updated_at: knex.fn.now()}).where({ id });

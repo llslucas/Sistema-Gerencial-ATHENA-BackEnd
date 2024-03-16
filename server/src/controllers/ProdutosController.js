@@ -3,13 +3,14 @@ import AppError from "../utils/AppError.js";
 
 export default class ProdutosController{
     async create(request, response){
-        const { nome, descricao, categoria, tamanho } = request.body;
+        const { nome, descricao, categoria, tamanho, estoque_atual } = request.body;
 
         const [produtoId] = await knex("produtos").insert({
             nome,
             descricao,
             categoria,
-            tamanho
+            tamanho,
+            estoque_atual
         });
 
         response.status(201).json("Produto cadastrado com sucesso!");
@@ -52,7 +53,7 @@ export default class ProdutosController{
 
     async update(request, response){
         const { id } = request.params;
-        const { nome, descricao, categoria, tamanho } = request.body;
+        const { nome, descricao, categoria, tamanho, estoque_atual } = request.body;
 
         const produto = await knex("produtos").where({id}).first();            
 
@@ -63,7 +64,8 @@ export default class ProdutosController{
         produto.nome = nome ?? produto.nome;
         produto.descricao = descricao ?? produto.descricao;
         produto.categoria = categoria ?? produto.categoria;  
-        produto.tamanho = tamanho ?? produto.tamanho;      
+        produto.tamanho = tamanho ?? produto.tamanho;     
+        produto.estoque_atual = estoque_atual ?? produto.estoque_atual; 
 
         await knex("produtos").update(produto).where({ id });
         await knex("produtos").update({updated_at: knex.fn.now()}).where({ id });

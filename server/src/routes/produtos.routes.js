@@ -1,8 +1,8 @@
 import Router from 'express';
-import ClientesController from '../controllers/ClientesController.js';
+import ProdutosController from '../controllers/ProdutosController.js';
 
 const produtosRouter = Router();
-const produtosController = new ClientesController();
+const produtosController = new ProdutosController();
 
 produtosRouter.post("/", produtosController.create);
 produtosRouter.get("/", produtosController.index);

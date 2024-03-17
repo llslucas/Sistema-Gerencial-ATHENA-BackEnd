@@ -9,7 +9,7 @@ export default class ComprasController{
         
         if(notaExiste){
             throw new AppError("Já existe uma nota com este número cadastrada.", 404);
-        }else if(!itens){
+        }else if(!itens || !itens.length){
             throw new AppError("Não é possível cadastrar uma compra sem itens.", 400);
         }else{
 

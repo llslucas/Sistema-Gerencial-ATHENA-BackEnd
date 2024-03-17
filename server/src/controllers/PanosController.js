@@ -15,7 +15,7 @@ export default class PanosController{
                 observacoes
             });
 
-            if(itens){
+            if(itens && itens.length){
                 for (const item of itens) {
                     await knex("itens_do_pano").insert({
                         id_produto: item.id_produto,
@@ -149,7 +149,7 @@ export default class PanosController{
 
         await knex("panos").update(pano).where({ id });
 
-        if(itens){
+        if(itens && itens.length){
             await knex("itens_do_pano").where({id_pano: pano.id}).delete();
 
             for (const item of itens) {

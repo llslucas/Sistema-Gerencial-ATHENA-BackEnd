@@ -31,6 +31,10 @@ export class ProdutoService{
         return response.data;
     }
 
+    /**
+     * @param {number} id
+     * @return {string}
+     */
     async deleteProduto(id){
         const response = await api.delete("/produtos/" + id);
         return response.data;

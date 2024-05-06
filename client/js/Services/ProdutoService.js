@@ -3,10 +3,15 @@ import { Produto } from "../Model/Produto/Produto.js";
 
 export class ProdutoService{   
     /**
+     * @param {string} query 
      * @return {Produto[]}
      */
-    async getProdutos(){
-        const response = await api.get("/produtos");         
+    async getProdutos(query=null){
+        const response = await api.get("/produtos", {
+            params:{
+                nome: query
+            }
+        });         
         const produtos = response.data.map(obj => new Produto(obj.nome, obj.descricao, obj.categoria, obj.tamanho, obj.estoque_atual, obj.created_at, obj.updated_at, obj.id,));    
         return produtos;
     }

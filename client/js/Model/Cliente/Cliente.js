@@ -1,5 +1,5 @@
 export class Cliente{
-    constructor(id, nome, telefone, email, created_at, updated_at){
+    constructor(nome, telefone, email, created_at = null, updated_at = null, id = null){
         this._id = id;
         this._nome = nome;
         this._telefone = telefone;
@@ -31,5 +31,9 @@ export class Cliente{
 
     get updated_at(){
         return this._updated_at;
+    }
+
+    info(){
+        return {nome: this.nome, telefone: this.telefone, email: this.email};
     }
 }

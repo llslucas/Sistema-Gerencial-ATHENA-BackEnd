@@ -1,5 +1,7 @@
 import { Produto } from "./Model/Produto/Produto";
 import { ProdutoService } from "./Services/ProdutoService"
+import { Cliente } from "./Model/Cliente/Cliente";
+import { ClienteService } from "./Services/ClienteService";
 
 document.querySelector('#app').innerHTML = `
   <h1> Projeto Athena </h1>
@@ -8,26 +10,22 @@ document.querySelector('#app').innerHTML = `
   <button id="exclusao"> Teste Exclusao </button>
 `
 
-const produtoService = new ProdutoService();
+const clienteService = new ClienteService();
 
 async function listaTudo(){
-  const produtos = await produtoService.getProdutos();
-  console.log(produtos);
+  const clientes = await clienteService.getClientes();
+  console.log(clientes);
 }
 
-// const produto = await produtoService.getProduto(9);
-// console.log(produto);
-
-const produto2 = new Produto("Teste", "Teste de cadastro", "Testes", "55", "10");
-// console.log(produto2);
+const cliente = new Cliente("Teste", "123456", "teste@email.com");
 
 async function testeCadastro(){
-  const response = await produtoService.addProduto(produto2);  
+  const response = await clienteService.addCliente(cliente);  
   alert(response);
 }
 
 async function testeDel(){
-  const response = await produtoService.deleteProduto(12);
+  const response = await clienteService.deleteCliente(5);
   alert(response);
 }
 

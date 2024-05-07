@@ -12,7 +12,7 @@ export class ProdutoService{
                 nome: query
             }
         });         
-        const produtos = response.data.map(obj => new Produto(obj.nome, obj.descricao, obj.categoria, obj.tamanho, obj.estoque_atual, obj.created_at, obj.updated_at, obj.id,));    
+        const produtos = response.data.map(obj => new Produto(obj.nome, obj.descricao, obj.categoria, obj.tamanho, obj.estoque_atual, obj.created_at, obj.updated_at, obj.id));    
         return produtos;
     }
 
@@ -44,6 +44,4 @@ export class ProdutoService{
         const response = await api.delete("/produtos/" + id);
         return response.data;
     }
-
-
 }

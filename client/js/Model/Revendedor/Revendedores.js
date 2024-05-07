@@ -1,6 +1,6 @@
 export class Revendedores{
-    constructor(){
-        this._revendedores = [];
+    constructor(revendedores = []){
+        this._revendedores = [...revendedores];
         Object.freeze(this);
     }   
 

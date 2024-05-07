@@ -1,6 +1,6 @@
 export class Clientes{
-    constructor(){
-        this._clientes = [];
+    constructor(clientes = []){
+        this._clientes = [...clientes];
         Object.freeze(this);
     }   
 

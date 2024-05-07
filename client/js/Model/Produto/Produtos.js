@@ -1,6 +1,6 @@
 export class Produtos{
-    constructor(){
-        this._produtos = [];
+    constructor(produtos = []){
+        this._produtos = [...produtos];
         Object.freeze(this);
     }   
 

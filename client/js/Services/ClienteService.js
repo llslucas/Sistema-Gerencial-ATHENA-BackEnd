@@ -6,7 +6,7 @@ export class ClienteService{
      * @param {string} query 
      * @return {Cliente[]}
      */
-    async getClientes(query=null){
+    async getAll(query=null){
         const response = await api.get("/clientes", {
             params:{
                 nome: query
@@ -20,7 +20,7 @@ export class ClienteService{
      * @param {number} id
      * @return {Cliente}
      */
-    async getCliente(id){  
+    async get(id){  
         const response = await api.get("/clientes/" + id);  
         const {nome, telefone, email, created_at, updated_at} = response.data;
         const cliente = new Cliente(nome, telefone, email, created_at, updated_at, id);        
@@ -31,7 +31,7 @@ export class ClienteService{
      * @param {Produto} cliente
      * @return {string}
      */
-    async addCliente(cliente){   
+    async add(cliente){   
         const response = await api.post("/clientes", cliente.info());
         return response.data;
     }
@@ -40,8 +40,18 @@ export class ClienteService{
      * @param {number} id
      * @return {string}
      */
-    async deleteCliente(id){
+    async delete(id){
         const response = await api.delete("/clientes/" + id);
+        return response.data;
+    }
+
+    /**
+     * @param {number} id
+     * @param {Cliente} cliente
+     * @return {string}
+     */
+    async atualiza(id, cliente){
+        const response = await api.patch("/clientes/" + id, cliente.info());
         return response.data;
     }
 }

@@ -1,5 +1,5 @@
 export class Revendedor{
-    constructor(id, nome, contato, comissao, created_at, updated_at){
+    constructor(nome, contato, comissao, created_at = null, updated_at = null, id = null){
         this._id = id;
         this._nome = nome;
         this._contato = contato;
@@ -31,5 +31,9 @@ export class Revendedor{
 
     get updated_at(){
         return this._updated_at;
+    }
+
+    info(){
+        return {nome: this.nome, contato: this.contato, comissao: this.comissao}
     }
 }

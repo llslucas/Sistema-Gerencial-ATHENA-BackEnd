@@ -32,7 +32,7 @@ export default class ClientesController{
         const deleted = await knex("clientes").where({ id }).delete();
 
         if(deleted){
-            return response.json();
+            return response.json("Cliente excluído com sucesso!");
         }else{
             throw new AppError("O Cliente especificado não existe.", 404);
         }

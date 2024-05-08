@@ -43,7 +43,7 @@ export default class RevendedoresController{
         const deleted = await knex("revendedores").where({ id }).delete();
 
         if(deleted){
-            return response.json("Usuário excluído com sucesso!");
+            return response.json("Revendedor excluído com sucesso!");
         }else{
             throw new AppError("O revendedor especificado não existe.", 404);
         }

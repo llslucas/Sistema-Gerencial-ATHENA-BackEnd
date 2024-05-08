@@ -34,7 +34,7 @@ export default class ProdutosController{
         const deleted = await knex("produtos").where({ id }).delete();
 
         if(deleted){
-            return response.json();
+            return response.json("Produto excluído com sucesso!");
         }else{
             throw new AppError("O Produto especificado não existe.", 404);
         }

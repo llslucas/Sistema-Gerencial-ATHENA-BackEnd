@@ -28,14 +28,20 @@ export default class ClientesController{
 
     async delete(request, response){
         const { id } = request.params;
+        
+        try{
+            let deleted = await knex("clientes").where({ id }).delete();
 
-        const deleted = await knex("clientes").where({ id }).delete();
-
-        if(deleted){
-            return response.json("Cliente excluído com sucesso!");
-        }else{
-            throw new AppError("O Cliente especificado não existe.", 404);
+            if(deleted){            
+                return response.json("Cliente excluído com sucesso!");            
+            }else{
+                throw new AppError("O Cliente especificado não existe.", 404);
+            }
+        }catch(e){            
+            throw new AppError("Não é possível excluir o cliente.");
         }
+
+        
     }
 
     async index(request, response){

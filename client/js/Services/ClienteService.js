@@ -12,6 +12,7 @@ export class ClienteService{
                 nome: query
             }
         });         
+        
         const clientes = response.data.map(obj => new Cliente(obj.nome, obj.telefone, obj.email, obj.created_at, obj.updated_at, obj.id));    
         return clientes;
     }
@@ -28,7 +29,7 @@ export class ClienteService{
     }
 
     /**
-     * @param {Produto} cliente
+     * @param {Cliente} cliente
      * @return {string}
      */
     async add(cliente){   

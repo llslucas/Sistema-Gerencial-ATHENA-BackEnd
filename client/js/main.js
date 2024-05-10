@@ -1,48 +1,46 @@
-import { Produto } from "./Model/Produto/Produto";
-import { ProdutoService } from "./Services/ProdutoService"
+import { ViewClientes } from "./View/viewClientes";
 import { Cliente } from "./Model/Cliente/Cliente";
 import { Clientes } from "./Model/Cliente/Clientes";
 import { ClienteService } from "./Services/ClienteService";
-import { Revendedor } from "./Model/Revendedor/Revendedor";
-import { Revendedores } from "./Model/Revendedor/Revendedores";
-import { RevendedorService } from "./Services/RevendedorService";
 
-document.querySelector('#app').innerHTML = `
-  <h1> Projeto Athena </h1>
-  <button id="lista"> Teste Lista </button>
-  <button id="cadastro"> Teste Cadastro </button>
-  <button id="exclusao"> Teste Exclusao </button>
-  <button id="update"> Teste Update </button>
-`
+const view = new ViewClientes("#app");
+const service = new ClienteService();
 
-const revendedorService = new RevendedorService();
+let clientes;
 
-async function listaTudo(){
-  const revendedores = new Revendedores(await revendedorService.getAll());
-  console.log(revendedores);
+async function atualiza(search = null){
+  clientes = new Clientes(await service.getAll(search))
+  view.update(clientes);
+
+  document.querySelectorAll('td > button').forEach(element => {  
+    element.addEventListener('click', async(e)=>{
+      try{
+        const response = await service.delete(element.getAttribute("data-id"));
+        alert(response);
+      }catch(e){      
+        alert(e.response.data.message);
+      }
+      
+      atualiza();
+    })
+  });
 }
 
-const revendedor = new Revendedor("Lucas Souza", "123456", 0.1);
+document.querySelector('form').addEventListener('submit', async(e) => {
+  e.preventDefault();
 
-async function testeCadastro(){
-  const response = await revendedorService.add(revendedor);  
+  const nome = document.querySelector('#name').value;
+  const telefone = document.querySelector('#telefone').value;
+  const email = document.querySelector('#email').value;
+
+  const response = await service.add(new Cliente(nome, telefone, email));
   alert(response);
-}
 
-async function testeDel(){
-  const response = await revendedorService.delete(5);
-  alert(response);
-}
+  atualiza();
+});
 
-async function testeUpdate(){
-  const revendedor = new Revendedor("Lucas Souza", "123456", 0.1);
-  const response = await revendedorService.atualiza(1, revendedor);
-  alert(response);
-}
+document.querySelector("#search").addEventListener('input', e => {
+  atualiza(e.target.value);
+})
 
-document.querySelector('#lista').addEventListener('click', e => listaTudo());
-document.querySelector('#cadastro').addEventListener('click', e => testeCadastro());
-document.querySelector('#exclusao').addEventListener('click', e => testeDel());
-document.querySelector('#update').addEventListener('click', e => testeUpdate());
-
-
+atualiza();

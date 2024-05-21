@@ -39,9 +39,7 @@ export default class ClientesController{
             }
         }catch(e){            
             throw new AppError("Não é possível excluir o cliente.");
-        }
-
-        
+        }        
     }
 
     async index(request, response){

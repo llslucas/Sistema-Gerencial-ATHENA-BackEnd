@@ -1,3 +1,4 @@
+import { View } from "./View"
 import { Produtos } from "../Model/Produto/Produtos"
 
 export class viewProdutos extends View{  
@@ -9,11 +10,12 @@ export class viewProdutos extends View{
         <table class="table table-hover table-bordered">
             <thead>
                 <tr>
-                    <th>Nome</th>
-                    <th>Descrição</th>
-                    <th>Categoria</th>
-                    <th>Tamanho</th>
-                    <th>Estoque Atual</th>
+                    <th class="text-center">Nome</th>
+                    <th class="text-center">Descrição</th>
+                    <th class="text-center">Categoria</th>
+                    <th class="text-center">Tamanho</th>
+                    <th class="text-center">Estoque Atual</th>
+                    <th class="text-center">Excluir</th>
                 </tr>
             </thead>
             
@@ -22,10 +24,11 @@ export class viewProdutos extends View{
                     `
                     <tr>                        
                         <td> ${produto.nome}</td>
-                        <td> R$ ${produto.descricao}</td>
-                        <td> R$ ${produto.categoria}</td>
-                        <td> R$ ${produto.tamanho}</td>
-                        <td> R$ ${produto.estoque_atual}</td>                     
+                        <td> ${produto.descricao}</td>
+                        <td class="text-center"> ${produto.categoria}</td>
+                        <td class="text-center"> ${produto.tamanho}</td>
+                        <td class="text-center"> ${produto.estoque_atual}</td> 
+                        <td class="text-center"><button class="btn btn-danger" data-id="${produto.id}"> Excluir </button></td>                      
                     </tr>
                     `).join('')}
             </tbody> 

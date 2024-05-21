@@ -1,11 +1,10 @@
 export class Clientes{
     constructor(clientes = []){
-        this._clientes = [...clientes];
-        Object.freeze(this);
+        this._clientes = [...clientes];        
     }   
 
-    add(cliente){
-        this._clientes.push(cliente);
+    renew(clientes = []){
+        this._clientes = [...clientes];
     }
 
     paraArray(){   

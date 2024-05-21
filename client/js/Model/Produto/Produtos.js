@@ -1,11 +1,10 @@
 export class Produtos{
     constructor(produtos = []){
-        this._produtos = [...produtos];
-        Object.freeze(this);
+        this._produtos = [...produtos];        
     }   
 
-    add(produto){
-        this._produtos.push(produto);
+    renew(produtos = []){
+        this._produtos = [...produtos];
     }
 
     paraArray(){   

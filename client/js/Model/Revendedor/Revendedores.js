@@ -1,11 +1,10 @@
 export class Revendedores{
     constructor(revendedores = []){
-        this._revendedores = [...revendedores];
-        Object.freeze(this);
+        this._revendedores = [...revendedores];        
     }   
 
-    add(revendedor){
-        this._revendedores.push(revendedor);
+    renew(revendedores = []){
+        this._revendedores = [...revendedores];
     }
 
     paraArray(){   

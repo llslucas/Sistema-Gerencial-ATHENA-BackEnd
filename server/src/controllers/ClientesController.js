@@ -48,6 +48,7 @@ export default class ClientesController{
 
         const clientes = await knex("clientes")
             .whereLike("clientes.nome", `%${search}%`)
+            .orWhereLike("clientes.email", `%${search}%`)
             .orderBy("nome");
 
         return response.json(clientes);            

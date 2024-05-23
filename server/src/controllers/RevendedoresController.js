@@ -19,7 +19,7 @@ export default class RevendedoresController{
         const search = nome ?? '';
 
         const revendedores = await knex("revendedores")
-            .whereLike("nome", `%${search}%`)
+            .whereLike("nome", `%${search}%`)            
             .orderBy("nome");
 
         return response.json(revendedores);        

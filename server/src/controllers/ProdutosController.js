@@ -49,7 +49,9 @@ export default class ProdutosController{
         const search = nome ?? '';        
 
         const produtos = await knex("produtos")
-            .whereLike("produtos.nome", `%${search}%`)
+            .whereLike("produtos.nome", `%${search}%`)    
+            .orWhereLike("produtos.descricao", `%${search}%`)     
+            .orWhereLike("produtos.categoria", `%${search}%`)             
             .orderBy("nome");
 
         return response.json(produtos);            

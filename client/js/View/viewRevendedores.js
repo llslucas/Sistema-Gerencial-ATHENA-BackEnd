@@ -30,7 +30,7 @@ export class ViewRevendedores extends View{
                     </tr>
                     `).join('')}
             </tbody> 
-                       
+            
         </table> 
         `   
     }

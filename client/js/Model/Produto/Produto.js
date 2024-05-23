@@ -32,11 +32,11 @@ export class Produto{
     }
 
     get estoque_atual(){
-        return this._tamanho;
+        return this._estoqueAtual;
     }
 
     info(){
-        return {nome: this._nome, descricao: this._descricao, categoria: this._categoria, tamanho: this._tamanho, estoque_atual: this.estoque_atual}
+        return {nome: this._nome, descricao: this._descricao, categoria: this._categoria, tamanho: this._tamanho, estoque_atual: this._estoqueAtual}
     }
     
 }

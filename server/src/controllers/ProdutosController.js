@@ -12,7 +12,7 @@ export default class ProdutosController{
             tamanho,
             estoque_atual
         });
-
+        
         response.status(201).json("Produto cadastrado com sucesso!");
     }   
 

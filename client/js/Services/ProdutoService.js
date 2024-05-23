@@ -33,6 +33,7 @@ export class ProdutoService{
      */
     async add(produto){   
         const response = await api.post("/produtos", produto.info());
+        console.log(produto.info());
         return response.data;
     }
 

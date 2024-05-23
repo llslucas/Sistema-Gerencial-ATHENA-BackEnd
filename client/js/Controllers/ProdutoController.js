@@ -36,7 +36,7 @@ export class ProdutoController{
         const tamanho = document.querySelector('#tamanho').value;
         const estoque = document.querySelector('#estoque').value;
 
-        const response = await this._service.add(new Produto(nome, descricao, categoria, tamanho, estoque));
+        const response = await this._service.add(new Produto(nome, descricao, categoria, tamanho, estoque));         
         alert(response);
 
         this.atualiza();

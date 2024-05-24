@@ -1,11 +1,11 @@
 export class Revendedor{
-    constructor(nome, contato, comissao, created_at = null, updated_at = null, id = null){
-        this._id = id;
-        this._nome = nome;
-        this._contato = contato;
-        this._comissao = comissao;
-        this._created_at = created_at;
-        this._updated_at = updated_at;
+    constructor(obj){
+        this._id = obj.id;
+        this._nome = obj.nome;
+        this._contato = obj.contato;
+        this._comissao = obj.comissao;
+        this._created_at = obj.created_at;
+        this._updated_at = obj.updated_at;
         Object.freeze(this);
     }
 

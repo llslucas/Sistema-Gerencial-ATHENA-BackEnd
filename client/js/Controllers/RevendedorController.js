@@ -1,12 +1,12 @@
 import { ViewRevendedores } from "../View/viewRevendedores";
 import { Revendedor } from "../Model/Revendedor/Revendedor";
 import { Revendedores } from "../Model/Revendedor/Revendedores";
-import { RevendedorService } from "../Services/RevendedorService";
+import { Service } from "../Services/Service";
 
 export class RevendedorController{
     constructor(){     
         this._view = new ViewRevendedores('#app');
-        this._service = new RevendedorService();        
+        this._service = new Service('revendedores', Revendedor);        
         this._revendedores = new Revendedores();        
         this._search = document.querySelector('#search');
         this._init();
@@ -34,7 +34,7 @@ export class RevendedorController{
         const contato = document.querySelector('#contato').value;
         const comissao = document.querySelector('#comissao').value;
 
-        const response = await this._service.add(new Revendedor(nome, contato, comissao));
+        const response = await this._service.add(new Revendedor({nome, contato, comissao}));
         alert(response);
 
         this.atualiza();

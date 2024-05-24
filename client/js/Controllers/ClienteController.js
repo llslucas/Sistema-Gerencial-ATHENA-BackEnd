@@ -1,12 +1,12 @@
 import { ViewClientes } from "../View/viewClientes";
 import { Cliente } from "../Model/Cliente/Cliente";
 import { Clientes } from "../Model/Cliente/Clientes";
-import { ClienteService } from "../Services/ClienteService";
+import { Service } from "../Services/Service";
 
 export class ClienteController{
     constructor(){     
         this._view = new ViewClientes('#app');
-        this._service = new ClienteService();        
+        this._service = new Service('clientes', Cliente);        
         this._clientes = new Clientes();        
         this._search = document.querySelector('#search');
         this._init();
@@ -34,7 +34,7 @@ export class ClienteController{
         const telefone = document.querySelector('#telefone').value;
         const email = document.querySelector('#email').value;
 
-        const response = await this._service.add(new Cliente(nome, telefone, email));
+        const response = await this._service.add(new Cliente({nome, telefone, email}));
         alert(response);
 
         this.atualiza();

@@ -1,11 +1,11 @@
-export class Cliente{
-    constructor(nome, telefone, email, created_at = null, updated_at = null, id = null){
-        this._id = id;
-        this._nome = nome;
-        this._telefone = telefone;
-        this._email = email;
-        this._created_at = created_at;
-        this._updated_at = updated_at;
+export class Cliente{   
+    constructor(obj){
+        this._id = obj.id;
+        this._nome = obj.nome;
+        this._telefone = obj.telefone;
+        this._email = obj.email;
+        this._created_at = obj.created_at;
+        this._updated_at = obj.updated_at;
         Object.freeze(this);
     }
 

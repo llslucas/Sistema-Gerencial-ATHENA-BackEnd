@@ -1,13 +1,13 @@
 export class Produto{
-    constructor(nome, descricao, categoria, tamanho, estoque_atual, created_at = null, updated_at = null, id = null){
-        this._id = id;
-        this._nome = nome;
-        this._descricao = descricao;
-        this._categoria = categoria;
-        this._tamanho = tamanho;
-        this._estoqueAtual = estoque_atual;
-        this._created_at = created_at;
-        this._updated_at = updated_at;   
+    constructor(obj){
+        this._id = obj.id;
+        this._nome = obj.nome;
+        this._descricao = obj.descricao;
+        this._categoria = obj.categoria;
+        this._tamanho = obj.tamanho;
+        this._estoqueAtual = obj.estoque_atual;
+        this._created_at = obj.created_at;
+        this._updated_at = obj.updated_at;   
         Object.freeze(this);    
     }
 

@@ -1,4 +1,4 @@
-import { ApplicationException } from "../../utils/ApplicationException";
+import { ApplicationException } from "../utils/ApplicationException";
 import { api } from "./api";
 
 export class Service{

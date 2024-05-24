@@ -2,7 +2,7 @@ import { ViewRevendedores } from "../View/viewRevendedores";
 import { Revendedor } from "../Model/Revendedor/Revendedor";
 import { Revendedores } from "../Model/Revendedor/Revendedores";
 import { Service } from "../Services/Service";
-import { getExceptionMessage } from "../../utils/ApplicationException";
+import { getExceptionMessage } from "../utils/ApplicationException";
 
 export class RevendedorController{
     constructor(){     

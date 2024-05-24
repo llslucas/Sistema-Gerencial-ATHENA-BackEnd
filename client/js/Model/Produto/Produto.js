@@ -5,7 +5,7 @@ export class Produto{
         this._descricao = obj.descricao;
         this._categoria = obj.categoria;
         this._tamanho = obj.tamanho;
-        this._estoqueAtual = obj.estoque_atual;
+        this._estoque_atual = obj.estoque_atual;
         this._created_at = obj.created_at;
         this._updated_at = obj.updated_at;   
         Object.freeze(this);    
@@ -32,11 +32,11 @@ export class Produto{
     }
 
     get estoque_atual(){
-        return this._estoqueAtual;
+        return this._estoque_atual;
     }
 
     info(){
-        return {nome: this._nome, descricao: this._descricao, categoria: this._categoria, tamanho: this._tamanho, estoque_atual: this._estoqueAtual}
+        return {nome: this._nome, descricao: this._descricao, categoria: this._categoria, tamanho: this._tamanho, estoque_atual: this._estoque_atual}
     }
     
 }

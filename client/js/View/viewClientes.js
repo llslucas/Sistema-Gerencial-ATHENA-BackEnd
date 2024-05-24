@@ -29,8 +29,7 @@ export class ViewClientes extends View{
                         <td class="text-center"><button class="btn btn-danger" data-id="${cliente.id}"> Excluir </button></td>                               
                     </tr>
                     `).join('')}
-            </tbody> 
-                       
+            </tbody>                        
         </table> 
         `   
     }

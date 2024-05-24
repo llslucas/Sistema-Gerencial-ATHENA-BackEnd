@@ -2,6 +2,7 @@ import { ViewClientes } from "../View/viewClientes";
 import { Cliente } from "../Model/Cliente/Cliente";
 import { Clientes } from "../Model/Cliente/Clientes";
 import { Service } from "../Services/Service";
+import { ApplicationException, getExceptionMessage } from "../../utils/ApplicationException";
 
 export class ClienteController{
     constructor(){     
@@ -45,7 +46,7 @@ export class ClienteController{
             const response = await this._service.delete(element.getAttribute("data-id"));
             alert(response);
         }catch(e){      
-            alert(e.response.data.message);
+            alert(getExceptionMessage(e));          
         }
         
         this.atualiza();

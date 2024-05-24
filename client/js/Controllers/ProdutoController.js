@@ -47,8 +47,7 @@ export class ProdutoController{
             const response = await this._service.delete(element.getAttribute("data-id"));
             alert(response);
         }catch(e){      
-            console.error(e);
-            alert(e.response.data.message);
+            alert(getExceptionMessage(e)); 
         }
         
         this.atualiza();

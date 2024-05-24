@@ -1,3 +1,4 @@
+import { ApplicationException } from "../../utils/ApplicationException";
 import { api } from "./api";
 
 export class Service{
@@ -45,8 +46,12 @@ export class Service{
      * @return {string}
      */
     async delete(id){
-        const response = await api.delete(`/${this._path}/${id}`);
-        return response.data;
+        try{
+            const response = await api.delete(`/${this._path}/${id}`);
+            return response.data;
+        }catch(e){
+            throw new ApplicationException("Não foi possível excluir o item, verifique as dependências.");
+        }        
     }
 
     /**

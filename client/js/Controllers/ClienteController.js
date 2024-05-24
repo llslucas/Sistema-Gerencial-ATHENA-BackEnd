@@ -2,7 +2,7 @@ import { ViewClientes } from "../View/viewClientes";
 import { Cliente } from "../Model/Cliente/Cliente";
 import { Clientes } from "../Model/Cliente/Clientes";
 import { Service } from "../Services/Service";
-import { ApplicationException, getExceptionMessage } from "../../utils/ApplicationException";
+import { getExceptionMessage } from "../../utils/ApplicationException";
 
 export class ClienteController{
     constructor(){     

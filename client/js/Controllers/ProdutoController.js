@@ -2,6 +2,7 @@ import { viewProdutos } from "../View/viewProdutos";
 import { Produto } from "../Model/Produto/Produto";
 import { Produtos } from "../Model/Produto/Produtos";
 import { Service } from "../Services/Service";
+import { getExceptionMessage } from "../../utils/ApplicationException";
 
 export class ProdutoController{
     constructor(){     

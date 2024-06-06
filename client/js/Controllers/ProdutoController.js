@@ -58,6 +58,7 @@ export class ProdutoController{
         alert(response);
 
         this.atualiza();
+        this._modal.hide();
     }    
 
     async atualizaObjeto(){

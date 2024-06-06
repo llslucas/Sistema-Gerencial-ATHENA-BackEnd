@@ -28,8 +28,8 @@ export class Service{
      */
     async get(id){  
         const response = await api.get(`/${this._path}/${id}`); 
-        const cliente = new this._classe(response.data);        
-        return cliente;
+        const obj = new this._classe(response.data);        
+        return obj;
     }
 
     /**

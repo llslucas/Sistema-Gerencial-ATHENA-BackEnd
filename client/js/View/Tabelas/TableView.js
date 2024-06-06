@@ -1,4 +1,4 @@
-export class View{
+export class TableView{
     constructor(seletor){
         this._elemento = document.querySelector(seletor);
     }

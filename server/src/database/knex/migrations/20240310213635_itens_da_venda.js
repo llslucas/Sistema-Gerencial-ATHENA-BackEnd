@@ -3,7 +3,6 @@
  * @returns { Promise<void> }
  */
 export function up(knex) {
-    knex.schema.al
     return knex.schema.createTable("itens_da_venda", table => {
         table.increments("id");
         table.integer("id_produto").references("id").inTable("produtos");

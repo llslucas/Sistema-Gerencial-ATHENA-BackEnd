@@ -8,7 +8,7 @@ OBS: Necessário Node JS
 - digite <code>npm install</code>.
 - Aguarde a instalação dos módulos.
 - digite <code>npm run dev</code>.
-- Abra o link em seu navegador para exibit o site.
+- Abra o link em seu navegador para exibir o site.
 
 ### Server
 - Abra a pasta "server" no terminal.

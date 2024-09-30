@@ -1,15 +1,20 @@
 import knex from "../database/knex/index.js";
 import AppError from "../utils/AppError.js";
+import ClientesRepository from "../repositories/ClientesRepository.js";
+import ClienteCreateService from "../services/clientes/ClienteCreateService.js";
+import ClienteShowService from "../services/clientes/clienteShowService.js";
+import ClienteDeleteService from "../services/clientes/ClienteDeleteService.js";
+import ClienteSearchService from "../services/clientes/ClienteSearchService.js";
+import ClienteUpdateService from "../services/clientes/ClienteUpdateService.js";
 
 export default class ClientesController{
     async create(request,response){
         const { nome, telefone, email } = request.body;
 
-        const [cliente_id] = await knex("clientes").insert({
-            nome,
-            telefone,
-            email
-        });
+        const repository = new ClientesRepository();
+        const service = new ClienteCreateService(repository);
+        
+        const cliente_id = await service.execute({ nome, telefone, email });
 
         response.status(201).json("Novo cliente cadastrado com sucesso: " + cliente_id);
     }
@@ -17,59 +22,44 @@ export default class ClientesController{
     async show(request, response){
         const { id } = request.params;
 
-        const cliente = await knex("clientes").where({ id }).first();
+        const repository = new ClientesRepository();
+        const service = new ClienteShowService(repository);
 
-        if(cliente){
-            return response.json(cliente);
-        }else{
-            throw new AppError("O Cliente especificado não existe.", 404);
-        };
+        const cliente = await service.execute({ id });
+        
+        response.json(cliente);
     }
 
     async delete(request, response){
         const { id } = request.params;
         
-        try{
-            let deleted = await knex("clientes").where({ id }).delete();
+        const repository = new ClientesRepository();
+        const service = new ClienteDeleteService(repository);
 
-            if(deleted){            
-                return response.json("Cliente excluído com sucesso!");            
-            }else{
-                throw new AppError("O Cliente especificado não existe.", 404);
-            }
-        }catch(e){            
-            throw new AppError("Não é possível excluir o cliente.");
-        }        
+        await service.execute({ id });
+         
+        return response.json("Cliente excluído com sucesso!");            
     }
 
     async index(request, response){
-        const { nome } = request.query; 
-        const search = nome ?? '';        
+        const { nome } = request.query;         
+        
+        const repository = new ClientesRepository();
+        const service = new ClienteSearchService(repository);
 
-        const clientes = await knex("clientes")
-            .whereLike("clientes.nome", `%${search}%`)
-            .orWhereLike("clientes.email", `%${search}%`)
-            .orderBy("nome");
+        const clientes = await service.execute({search: nome});
 
-        return response.json(clientes);            
+        return response.json(clientes);
     }
 
     async update(request, response){
         const { id } = request.params;
         const { nome, telefone, email } = request.body;
 
-        const cliente = await knex("clientes").where({id}).first();            
+        const repository = new ClientesRepository();
+        const service = new ClienteUpdateService(repository);
 
-        if(!cliente){
-            throw new AppError("O Cliente especificado não existe.", 404);
-        }
-
-        cliente.nome = nome ?? cliente.nome;
-        cliente.telefone = telefone ?? cliente.telefone;
-        cliente.email = email ?? cliente.email;    
-
-        await knex("clientes").update(cliente).where({ id });
-        await knex("clientes").update({updated_at: knex.fn.now()}).where({ id });
+        await service.execute({ id, nome, telefone, email });
 
         return response.json("Cliente alterado com sucesso!");  
     }  

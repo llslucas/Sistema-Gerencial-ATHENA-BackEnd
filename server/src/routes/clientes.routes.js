@@ -1,8 +1,13 @@
 import Router from 'express';
 import ClientesController from '../controllers/ClientesController.js';
+import ensureAuthenticated from '../middlewares/ensureAuthenticated.js'
+import verifyUserAuthorization from '../middlewares/verifyUserAuthorization.js';
 
 const clientesRouter = Router();
 const clientesController = new ClientesController();
+
+clientesRouter.use(ensureAuthenticated);
+clientesRouter.use(verifyUserAuthorization(['admin', 'user']));
 
 clientesRouter.post("/", clientesController.create);
 clientesRouter.get("/", clientesController.index);

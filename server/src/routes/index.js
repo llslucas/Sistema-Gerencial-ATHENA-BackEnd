@@ -7,6 +7,8 @@ import panosRouter from './panos.routes.js';
 import comprasRouter from './compras.routes.js';
 import movimentacoesRouter from './movimentacoes.routes.js';
 import vendasRouter from './vendas.routes.js';
+import usersRouter from './users.routes.js';
+import sessionsRouter from './sessions.routes.js';
 
 const router = Router();
 
@@ -17,5 +19,7 @@ router.use('/panos', panosRouter);
 router.use('/compras', comprasRouter);
 router.use('/movimentacoes', movimentacoesRouter);
 router.use('/vendas', vendasRouter);
+router.use('/users', usersRouter);
+router.use('/sessions', sessionsRouter);
 
 export default router;

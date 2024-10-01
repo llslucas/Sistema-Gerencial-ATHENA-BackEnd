@@ -1,5 +1,3 @@
-import knex from "../database/knex/index.js";
-import AppError from "../utils/AppError.js";
 import ClientesRepository from "../repositories/ClientesRepository.js";
 import ClienteCreateService from "../services/clientes/ClienteCreateService.js";
 import ClienteShowService from "../services/clientes/clienteShowService.js";

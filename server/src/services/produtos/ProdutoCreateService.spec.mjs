@@ -32,8 +32,8 @@ describe("ProdutoCreateService", () =>{
       estoque_atual: 10
     }
 
-    const cliente_id = await produtoCreateService.execute(produtoTeste);    
-    expect(cliente_id).toBeDefined();    
+    const produto_id = await produtoCreateService.execute(produtoTeste);    
+    expect(produto_id).toBeDefined();    
   });  
 
   it("Caso o campo nome esteja em branco deve retornar um AppError.", async() => {

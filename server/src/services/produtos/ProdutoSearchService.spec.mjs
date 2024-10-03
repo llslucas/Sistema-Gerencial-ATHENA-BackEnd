@@ -45,16 +45,16 @@ describe("ProdutoSearchService", () =>{
   });
 
 
-  it("Uma busca em branco deve retornar todos os clientes.", async () => {
-    const clientes = await produtoSearchService.execute({search: ""});
+  it("Uma busca em branco deve retornar todos os produtos.", async () => {
+    const produtos = await produtoSearchService.execute({search: ""});
 
-    expect(clientes).toHaveLength(2);
+    expect(produtos).toHaveLength(2);
   });
 
   it("Uma busca com valores em comum deve retornar todos os produtos com o valor.", async () => {
-    const clientes = await produtoSearchService.execute({search: "teste"});
+    const produtos = await produtoSearchService.execute({search: "teste"});
 
-    expect(clientes).toHaveLength(2);
+    expect(produtos).toHaveLength(2);
   });
 
   it("A busca deve retornar o produto esperado.", async () => {

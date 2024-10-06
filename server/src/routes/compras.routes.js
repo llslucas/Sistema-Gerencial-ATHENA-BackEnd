@@ -1,8 +1,13 @@
 import Router from 'express';
 import ComprasController from '../controllers/ComprasController.js';
+import ensureAuthenticated from '../middlewares/ensureAuthenticated.js'
+import verifyUserAuthorization from '../middlewares/verifyUserAuthorization.js';
 
 const comprasRouter = Router();
 const comprasController = new ComprasController();
+
+comprasRouter.use(ensureAuthenticated);
+comprasRouter.use(verifyUserAuthorization(['admin', 'user']));
 
 comprasRouter.post("/", comprasController.create);
 comprasRouter.get("/", comprasController.index);

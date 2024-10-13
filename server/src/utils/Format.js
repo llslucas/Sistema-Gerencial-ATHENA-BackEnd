@@ -1,5 +1,5 @@
-export function FormatPano(pano){  
-  const itensPano = pano.itens.map(item => {
+export function FormatPano(movimentacao){  
+  const itensMovimentacao = movimentacao.itens.map(item => {
     return {
       id_produto: item.id,
       quantidade: item.quantidade,
@@ -8,9 +8,9 @@ export function FormatPano(pano){
   });
 
   return{
-    observacoes: pano.observacoes,
-    id_revendedor: pano.revendedor.id,
-    itens: itensPano
+    observacoes: movimentacao.observacoes,
+    id_revendedor: movimentacao.revendedor.id,
+    itens: itensMovimentacao
   };
 }
 
@@ -34,3 +34,21 @@ function formatVenda(venda){
     itens: itensVenda
   };        
 };
+
+export function FormatMovimentacao(movimentacao){  
+  const itensMovimentacao = movimentacao.itens.map(item => {
+    return {
+      id_produto: item.id,
+      tipo_movimentacao: item.tipo_movimentacao,
+      quantidade: item.quantidade,
+      valor_unitario: item.valor_unitario,
+      valor_total: item.valor_total
+    }
+  });
+
+  return{
+    descricao: movimentacao.descricao,
+    data_movimentacao: movimentacao.data_movimentacao,
+    itens: itensMovimentacao
+  };
+}

@@ -5,7 +5,7 @@
 export function up(knex) {
     return knex.schema.createTable("movimentacoes", table => {
         table.increments("id");        
-        table.text("motivo");
+        table.text("descricao");
         table.date("data_movimentacao");
 
         table.timestamp("created_at").defaultTo(knex.fn.now());

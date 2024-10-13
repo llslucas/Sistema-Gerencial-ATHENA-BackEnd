@@ -2,6 +2,7 @@ import ComprasRepository from "../../repositories/ComprasRepository.js";
 import ProdutosRepository from "../../repositories/ProdutosRepository.js";
 import CompraCreateService from "./CompraCreateService.js";
 import AppError from "../../utils/AppError.js";
+import { produtoTeste } from "../../utils/Examples.js";
 
 describe("CompraCreateService", () =>{
   /** @type {ComprasRepository} */
@@ -25,14 +26,6 @@ describe("CompraCreateService", () =>{
   });  
 
   beforeEach( async() => {  
-    const produtoTeste = {           
-      nome: "Teste",
-      descricao: "Produto criado para fins de teste",
-      categoria: "T",
-      tamanho: 10,
-      estoque_atual: 10
-    };
-
     id_produto = await produtosRepository.create(produtoTeste);
   })
 
@@ -46,19 +39,18 @@ describe("CompraCreateService", () =>{
     await produtosRepository.disconnect();
   });
 
-  it("O compra deve ser criada.", async () => {
+  it("A compra deve ser criada.", async () => {    
     const compraTeste = {           
       numero_nota: 123456,
       fornecedor: "Teste",
       data_compra: "03/10/2024",
       itens:[{
-        id_produto,
+        id: id_produto,
         quantidade: 10,
         valor_unitario: 22.22,
         valor_total: 22.22 * 10
       }]
     }
-
     const compra_id = await compraCreateService.execute(compraTeste);   
     expect(compra_id).toBeDefined();    
   });  
@@ -68,7 +60,7 @@ describe("CompraCreateService", () =>{
       fornecedor: "Teste",
       data_compra: "03/10/2024",
       itens:[{
-        id_produto,
+        id: id_produto,
         quantidade: 10,
         valor_unitario: 22.22,
         valor_total: 22.22 * 10
@@ -83,7 +75,7 @@ describe("CompraCreateService", () =>{
       numero_nota: 123456,
       data_compra: "03/10/2024",
       itens:[{
-        id_produto,
+        id: id_produto,
         quantidade: 10,
         valor_unitario: 22.22,
         valor_total: 22.22 * 10
@@ -98,7 +90,7 @@ describe("CompraCreateService", () =>{
       numero_nota: 123456,
       fornecedor: "Teste",
       itens:[{
-        id_produto,
+        id: id_produto,
         quantidade: 10,
         valor_unitario: 22.22,
         valor_total: 22.22 * 10
@@ -124,7 +116,7 @@ describe("CompraCreateService", () =>{
       fornecedor: "Teste",
       data_compra: "03/10/2024",
       itens:[{
-        id_produto: id_produto + 1,
+        id: id_produto + 1,
         quantidade: 10,
         valor_unitario: 22.22,
         valor_total: 22.22 * 10
@@ -140,7 +132,7 @@ describe("CompraCreateService", () =>{
       fornecedor: "Teste",
       data_compra: "03/10/2024",
       itens:[{
-        id_produto,
+        id: id_produto,
         quantidade: 10,
         valor_unitario: 22.22,
         valor_total: 22.22 * 10
@@ -152,7 +144,7 @@ describe("CompraCreateService", () =>{
       fornecedor: "Teste2",
       data_compra: "04/10/2024",
       itens:[{
-        id_produto,
+        id: id_produto,
         quantidade: 20,
         valor_unitario: 22.22,
         valor_total: 22.22 * 10

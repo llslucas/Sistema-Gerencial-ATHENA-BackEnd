@@ -40,7 +40,7 @@ describe("CompraShowService", () =>{
       fornecedor: "Teste",
       data_compra: "03/10/2024",
       itens:[{
-        id_produto,
+        id: id_produto,
         quantidade: 10,
         valor_unitario: 22.22,
         valor_total: 22.22 * 10

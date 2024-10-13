@@ -1,7 +1,8 @@
 import ComprasRepository from "../../repositories/ComprasRepository.js";
 import CompraSearchService from "./CompraSearchService.js";
 import ProdutosRepository from "../../repositories/ProdutosRepository.js";
-import AppError from "../../utils/AppError.js";
+import { produtoTeste, produtoTeste2 } from "../../utils/Examples.js";
+import { formatCompra } from "../../utils/Format.js";
 
 describe("CompraSearchService", () =>{
   /** @type {ComprasRepository} */
@@ -16,26 +17,6 @@ describe("CompraSearchService", () =>{
   let id_produto1;
   let id_produto2;
 
-
-  //Função para usar como callback no map, formata a compra obtida na query para ficar igual ao array de cadastro.
-  function formatCompra(compra){     
-      const itensCompra = compra.itens.map(item => {
-        return{
-          id_produto: item.id_produto,
-          quantidade: item.quantidade,
-          valor_unitario: item.valor_unitario,
-          valor_total: item.valor_total
-        }
-      });
-
-      return {
-        numero_nota: compra.numero_nota,
-        fornecedor: compra.fornecedor,
-        data_compra: compra.data_compra,
-        itens: itensCompra
-      };  
-  }
-
   beforeAll( async() => {
     repository = new ComprasRepository();        
     compraSearchService = new CompraSearchService(repository); 
@@ -46,23 +27,7 @@ describe("CompraSearchService", () =>{
   });  
 
   beforeEach( async() => {  
-    const produtoTeste1 = {           
-      nome: "Teste",
-      descricao: "Produto criado para fins de teste",
-      categoria: "T",
-      tamanho: 10,
-      estoque_atual: 10
-    };
-
-    const produtoTeste2 = {           
-      nome: "Produto",
-      descricao: "Produto criado para fins de teste",
-      categoria: "T",
-      tamanho: 20,
-      estoque_atual: 20
-    };
-
-    id_produto1 = await produtosRepository.create(produtoTeste1);
+    id_produto1 = await produtosRepository.create(produtoTeste);
     id_produto2 = await produtosRepository.create(produtoTeste2);
 
     const compraTeste1 = {           
@@ -70,7 +35,7 @@ describe("CompraSearchService", () =>{
       fornecedor: "Teste 1",
       data_compra: "03/10/2024",
       itens:[{
-        id_produto: id_produto1,
+        id: id_produto1,
         quantidade: 10,
         valor_unitario: 22.22,
         valor_total: (22.22 * 10)
@@ -82,7 +47,7 @@ describe("CompraSearchService", () =>{
       fornecedor: "Teste 2",
       data_compra: "10/10/2024",
       itens:[{
-        id_produto: id_produto2,
+        id: id_produto2,
         quantidade: 5,
         valor_unitario: 22.22,
         valor_total: (22.22 * 10)
@@ -117,7 +82,7 @@ describe("CompraSearchService", () =>{
       fornecedor: "Teste 1",
       data_compra: "03/10/2024",
       itens:[{
-        id_produto: id_produto1,
+        id: id_produto1,
         quantidade: 10,
         valor_unitario: 22.22,
         valor_total: (22.22 * 10)
@@ -137,7 +102,7 @@ describe("CompraSearchService", () =>{
       fornecedor: "Teste 2",
       data_compra: "10/10/2024",
       itens:[{
-        id_produto: id_produto2,
+        id: id_produto2,
         quantidade: 5,
         valor_unitario: 22.22,
         valor_total: (22.22 * 10)
@@ -149,15 +114,15 @@ describe("CompraSearchService", () =>{
     expect(comprasEncontradas).toEqual(compraProcurada);
   });
 
-  it("Uma busca com o produto da nota deve retornar o pedido esperado.", async () => {
-    const compras = await compraSearchService.execute({search: "Produto"}); 
+  it("Uma busca com o produto deve retornar o pedido esperado.", async () => {
+    const compras = await compraSearchService.execute({search: "Produto Novo"}); 
 
     const compraProcurada = [{           
       numero_nota: 987654,
       fornecedor: "Teste 2",
       data_compra: "10/10/2024",
       itens:[{
-        id_produto: id_produto2,
+        id: id_produto2,
         quantidade: 5,
         valor_unitario: 22.22,
         valor_total: (22.22 * 10)

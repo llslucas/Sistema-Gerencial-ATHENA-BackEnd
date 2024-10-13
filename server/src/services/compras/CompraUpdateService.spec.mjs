@@ -2,6 +2,8 @@ import ComprasRepository from "../../repositories/ComprasRepository.js";
 import CompraUpdateService from "./CompraUpdateService.js";
 import ProdutosRepository from "../../repositories/ProdutosRepository.js";
 import AppError from "../../utils/AppError.js";
+import { produtoTeste } from "../../utils/Examples.js";
+import { formatCompra } from "../../utils/Format.js";
 
 describe("CompraUpdateService", () =>{
   /** @type {ComprasRepository} */
@@ -14,26 +16,7 @@ describe("CompraUpdateService", () =>{
   let compraUpdateService = null;  
 
   let id_produto;
-  let id_compra;
-
-  //Função para usar como callback no map, formata a compra obtida na query para ficar igual ao array de cadastro.
-  function formatCompra(compra){     
-      const itensCompra = compra.itens.map(item => {
-        return{
-          id_produto: item.id_produto,
-          quantidade: item.quantidade,
-          valor_unitario: item.valor_unitario,
-          valor_total: item.valor_total
-        }
-      });
-
-      return {
-        numero_nota: compra.numero_nota,
-        fornecedor: compra.fornecedor,
-        data_compra: compra.data_compra,
-        itens: itensCompra
-      };  
-  }
+  let id_compra; 
 
   beforeAll( async() => {
     repository = new ComprasRepository();        
@@ -45,14 +28,6 @@ describe("CompraUpdateService", () =>{
   });  
 
   beforeEach( async() => {  
-    const produtoTeste = {           
-      nome: "Produto Teste",
-      descricao: "Produto criado para fins de teste",
-      categoria: "T",
-      tamanho: 10,
-      estoque_atual: 10
-    }; 
-
     id_produto = await produtosRepository.create(produtoTeste);
 
     const compraTeste = {           
@@ -60,7 +35,7 @@ describe("CompraUpdateService", () =>{
       fornecedor: "Fornecedor Teste",
       data_compra: "03/10/2024",
       itens:[{
-        id_produto,
+        id: id_produto,
         quantidade: 10,
         valor_unitario: 22.22,
         valor_total: (22.22 * 10)
@@ -90,7 +65,7 @@ describe("CompraUpdateService", () =>{
 
   it("Se algum produto que não existe for informado, retornar um AppError", async () => {
     const itens = [{
-      id_produto: id_produto + 1,
+      id: id_produto + 1,
       quantidade: 10,
       valor_unitario: 22.22,
       valor_total: (22.22 * 10)
@@ -107,7 +82,7 @@ describe("CompraUpdateService", () =>{
       fornecedor: "Fornecedor Teste",
       data_compra: "03/10/2024",
       itens:[{
-        id_produto,
+        id: id_produto,
         quantidade: 10,
         valor_unitario: 22.22,
         valor_total: (22.22 * 10)
@@ -127,7 +102,7 @@ describe("CompraUpdateService", () =>{
       fornecedor: "Novo Fornecedor",
       data_compra: "03/10/2024",
       itens:[{
-        id_produto,
+        id: id_produto,
         quantidade: 10,
         valor_unitario: 22.22,
         valor_total: (22.22 * 10)
@@ -147,7 +122,7 @@ describe("CompraUpdateService", () =>{
       fornecedor: "Fornecedor Teste",
       data_compra: "10/10/2024",
       itens:[{
-        id_produto,
+        id: id_produto,
         quantidade: 10,
         valor_unitario: 22.22,
         valor_total: (22.22 * 10)
@@ -171,13 +146,13 @@ describe("CompraUpdateService", () =>{
     const id_produto_novo = await produtosRepository.create(novoProduto);
 
     const itens = [{
-        id_produto: id_produto_novo,
+        id: id_produto_novo,
         quantidade: 99,
         valor_unitario: 33,
         valor_total: (33 * 10)
       },
       {
-        id_produto: id_produto,
+        id: id_produto,
         quantidade: 10,
         valor_unitario: 22.22,
         valor_total: (22.22 * 10)

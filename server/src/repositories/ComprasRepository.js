@@ -1,4 +1,5 @@
 import knex from "../database/knex/index.js";
+import AppError from "../utils/AppError.js";
 
 export default class ComprasRepository{
   async disconnect(){
@@ -6,6 +7,13 @@ export default class ComprasRepository{
   }
 
   async create({ numero_nota, fornecedor, data_compra, itens }){
+    //Verificação dos itens
+    for(const item of itens){            
+      if(!await knex("produtos").where({ id: item.id }).first()){
+        throw new AppError(`O Produto com o ID: ${item.id} não existe.`, 404);
+      }
+    }
+
     const [id_compra] = await knex("compras").insert({
         numero_nota,
         fornecedor,
@@ -14,7 +22,7 @@ export default class ComprasRepository{
 
     for (const item of itens) {
         await knex("itens_da_compra").insert({
-            id_produto: item.id_produto,
+            id_produto: item.id,
             id_compra,
             quantidade: item.quantidade,
             valor_unitario: item.valor_unitario,
@@ -31,12 +39,11 @@ export default class ComprasRepository{
     if(compra){
       const produtos = await knex("itens_da_compra")
           .select([
-              "itens_da_compra.id_produto",
+              "produtos.id",
               "produtos.nome",
               "produtos.descricao",
               "produtos.categoria",
-              "produtos.tamanho",
-              "produtos.estoque_atual",
+              "produtos.tamanho",              
               "itens_da_compra.quantidade",
               "itens_da_compra.valor_unitario",
               "itens_da_compra.valor_total"
@@ -47,7 +54,7 @@ export default class ComprasRepository{
           .orderBy("produtos.nome");     
 
       return {
-          ...compra,            
+          ...compra,        
           itens: produtos
       };
     }
@@ -56,7 +63,6 @@ export default class ComprasRepository{
   async delete({ id }){
     //Os itens da compra são excluídos automaticamente pelo banco de dados graças ao CASCADE.
     const deleted = await knex("compras").where({ id }).delete();
-
     return deleted;
   }
 
@@ -67,12 +73,11 @@ export default class ComprasRepository{
 
     const produtos = await knex("itens_da_compra")
         .select([
-            "itens_da_compra.id_produto",
+            "produtos.id",
             "produtos.nome",
             "produtos.descricao",
             "produtos.categoria",
-            "produtos.tamanho",
-            "produtos.estoque_atual",
+            "produtos.tamanho",       
             "itens_da_compra.quantidade",
             "itens_da_compra.valor_unitario",
             "itens_da_compra.valor_total",
@@ -95,35 +100,41 @@ export default class ComprasRepository{
     const filteredCompras = insertCompras.filter(compra => {      
       return String(compra.numero_nota).includes(search) ||
       compra.fornecedor.includes(search) ||
-      compra.itens.filter(produto => produto.nome.includes(search)).length > 0
-    });  
+      compra.itens.find(produto => produto.nome.includes(search))
+    });
 
     return filteredCompras;
   }
 
   async update({ id, numero_nota, fornecedor, data_compra, itens }){   
-    await knex("compras").update({ numero_nota, fornecedor, data_compra }).where({ id });  
+    //Verificação dos itens
+    if(itens){
+      for(const item of itens){      
+        if(!await knex("produtos").where({ id: item.id }).first()){
+          throw new AppError(`O Produto com o ID: ${item.id} não existe.`, 404);
+        }
+      }
+    }  
+
+    await knex("compras").update({ numero_nota, fornecedor, data_compra, updated_at: knex.fn.now() }).where({ id });  
 
     if(itens && itens.length){
       await knex("itens_da_compra").where({id_compra: id}).delete();    
 
       for (const item of itens) {   
         await knex("itens_da_compra").insert({
-            id_produto: item.id_produto,
+            id_produto: item.id,
             id_compra: id,
             quantidade: item.quantidade,
             valor_unitario: item.valor_unitario,
             valor_total: item.valor_total
         });          
       }
-    }
-
-    await knex("compras").update({updated_at: knex.fn.now()}).where({ id });
+    }    
   }
 
   async checkIfExists({ numero_nota }){
     const compra = await knex("compras").where({numero_nota}).first();
-
     return Boolean(compra);
   }
 

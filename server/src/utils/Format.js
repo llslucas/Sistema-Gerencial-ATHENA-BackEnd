@@ -1,3 +1,21 @@
+export function formatCompra(compra){     
+  const itensCompra = compra.itens.map(item => {
+    return{
+      id: item.id,
+      quantidade: item.quantidade,
+      valor_unitario: item.valor_unitario,
+      valor_total: item.valor_total
+    }
+  });
+
+  return {
+    numero_nota: compra.numero_nota,
+    fornecedor: compra.fornecedor,
+    data_compra: compra.data_compra,
+    itens: itensCompra
+  };  
+}
+
 export function FormatPano(movimentacao){  
   const itensMovimentacao = movimentacao.itens.map(item => {
     return {

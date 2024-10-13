@@ -32,10 +32,10 @@ export function FormatPano(movimentacao){
   };
 }
 
-function formatVenda(venda){     
+export function formatVenda(venda){     
   const itensVenda = venda.itens.map(item => {
     return{
-      id_produto: item.id,
+      id: item.id,
       quantidade: item.quantidade,
       valor_unitario: item.valor_unitario,
       valor_total: item.valor_total,

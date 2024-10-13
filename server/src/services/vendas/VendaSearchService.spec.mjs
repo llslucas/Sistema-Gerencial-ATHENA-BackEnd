@@ -3,7 +3,10 @@ import VendaSearchService from "./VendaSearchService.js";
 import ProdutosRepository from "../../repositories/ProdutosRepository.js";
 import ClientesRepository from "../../repositories/ClientesRepository.js";
 import RevendedoresRepository from "../../repositories/RevendedoresRepository.js";
-import AppError from "../../utils/AppError.js";
+import { produtoTeste, produtoTeste2 } from "../../utils/Examples.js";
+import { revendedorTeste, revendedorTeste2 } from "../../utils/Examples.js";
+import { clienteTeste, clienteTeste2 } from "../../utils/Examples.js";
+import { formatVenda } from "../../utils/Format.js";
 
 describe("VendaSearchService", () =>{
   /** @type {VendasRepository} */
@@ -43,47 +46,7 @@ describe("VendaSearchService", () =>{
     await revendedoresRepository.deleteAll();
   });   
 
-  beforeEach( async() => {  
-    const produtoTeste = {           
-      nome: "Produto Teste",
-      descricao: "Produto criado para fins de teste",
-      categoria: "T",
-      tamanho: 10,
-      estoque_atual: 10
-    };
-
-    const produtoTeste2 = {           
-      nome: "Produto Novo",
-      descricao: "Produto criado para fins de teste",
-      categoria: "T",
-      tamanho: 10,
-      estoque_atual: 10
-    };
-
-    const revendedorTeste = {           
-      nome: "Revendedor Teste",
-      contato: "123456",
-      comissao: 20
-    }
-
-    const revendedorTeste2 = {           
-      nome: "Revendedor Novo",
-      contato: "123456",
-      comissao: 20
-    }
-
-    const clienteTeste = {           
-      nome: "Cliente Teste",
-      telefone: "123456",
-      email: "teste@email.com"      
-    };
-
-    const clienteTeste2 = {           
-      nome: "Cliente Novo",
-      telefone: "123456",
-      email: "teste@email.com"      
-    };
-
+  beforeEach( async() => {
     id_produto = await produtosRepository.create(produtoTeste);
     id_produto2 = await produtosRepository.create(produtoTeste2);
     id_revendedor = await revendedoresRepository.create(revendedorTeste);
@@ -97,7 +60,7 @@ describe("VendaSearchService", () =>{
       id_revendedor,
       id_cliente,
       itens:[{
-        id_produto,
+        id: id_produto,
         quantidade: 10,
         valor_unitario: 22.22,
         valor_total: 22.22 * 10,
@@ -111,7 +74,7 @@ describe("VendaSearchService", () =>{
       id_revendedor: id_revendedor2,
       id_cliente: id_cliente2,
       itens:[{
-        id_produto: id_produto2,
+        id: id_produto2,
         quantidade: 30,
         valor_unitario: 25,
         valor_total: 25 * 10,
@@ -136,32 +99,9 @@ describe("VendaSearchService", () =>{
     await revendedoresRepository.disconnect();
     await clientesRepository.disconnect();
   });
-
-  //Função para usar como callback no map, formata a venda obtida na query para ficar igual ao array de cadastro.
-  function formatVenda(venda){     
-      const itensVenda = venda.itens.map(item => {
-        return{
-          id_produto: item.id,
-          quantidade: item.quantidade,
-          valor_unitario: item.valor_unitario,
-          valor_total: item.valor_total,
-          valor_comissao: item.valor_comissao
-        }
-      });
-
-      return {
-        id: venda.id,
-        tipo_pagamento: venda.tipo_pagamento,
-        data_venda: venda.data_venda,
-        id_revendedor: venda.revendedor.id,
-        id_cliente: venda.cliente.id,
-        itens: itensVenda
-      };        
-  };
   
   it("Uma busca em branco deve retornar todas as vendas.", async () => {
     const vendas = await vendaSearchService.execute({search: ""});
-
     expect(vendas).toHaveLength(2);
   });
 
@@ -175,7 +115,7 @@ describe("VendaSearchService", () =>{
       id_revendedor,
       id_cliente,
       itens:[{
-        id_produto,
+        id: id_produto,
         quantidade: 10,
         valor_unitario: 22.22,
         valor_total: 22.22 * 10,
@@ -198,7 +138,7 @@ describe("VendaSearchService", () =>{
       id_revendedor,
       id_cliente,
       itens:[{
-        id_produto,
+        id: id_produto,
         quantidade: 10,
         valor_unitario: 22.22,
         valor_total: 22.22 * 10,
@@ -221,7 +161,7 @@ describe("VendaSearchService", () =>{
       id_revendedor,
       id_cliente,
       itens:[{
-        id_produto,
+        id: id_produto,
         quantidade: 10,
         valor_unitario: 22.22,
         valor_total: 22.22 * 10,
@@ -244,7 +184,7 @@ describe("VendaSearchService", () =>{
       id_revendedor,
       id_cliente,
       itens:[{
-        id_produto,
+        id: id_produto,
         quantidade: 10,
         valor_unitario: 22.22,
         valor_total: 22.22 * 10,
@@ -267,7 +207,7 @@ describe("VendaSearchService", () =>{
       id_revendedor,
       id_cliente,
       itens:[{
-        id_produto,
+        id: id_produto,
         quantidade: 10,
         valor_unitario: 22.22,
         valor_total: 22.22 * 10,
@@ -290,7 +230,7 @@ describe("VendaSearchService", () =>{
       id_revendedor,
       id_cliente,
       itens:[{
-        id_produto,
+        id: id_produto,
         quantidade: 10,
         valor_unitario: 22.22,
         valor_total: 22.22 * 10,

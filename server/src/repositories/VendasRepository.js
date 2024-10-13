@@ -21,8 +21,8 @@ export default class VendasRepository{
 
     //Verificação dos itens
     for(const item of itens){      
-      if(!await knex("produtos").where({ id: item.id_produto }).first()){
-        throw new AppError(`O Produto com o ID: ${item.id_produto} não existe.`, 404);
+      if(!await knex("produtos").where({ id: item.id }).first()){
+        throw new AppError(`O Produto com o ID: ${item.id} não existe.`, 404);
       }
     }
 
@@ -35,7 +35,7 @@ export default class VendasRepository{
 
     for (const item of itens) {
         await knex("itens_da_venda").insert({
-            id_produto: item.id_produto,
+            id_produto: item.id,
             id_venda,                    
             quantidade: item.quantidade,
             valor_unitario: item.valor_unitario,
@@ -139,7 +139,7 @@ export default class VendasRepository{
       venda.revendedor.nome.includes(search) ||
       venda.tipo_pagamento.includes(search) ||
       venda.data_venda.includes(search) ||
-      venda.itens.filter(produto => produto.nome.includes(search)).length > 0
+      venda.itens.find(produto => produto.nome.includes(search))
     });  
 
     return filteredVendas;
@@ -161,20 +161,20 @@ export default class VendasRepository{
     //Verificação dos itens
     if(itens){
       for(const item of itens){      
-        if(!await knex("produtos").where({ id: item.id_produto }).first()){
-          throw new AppError(`O Produto com o ID: ${item.id_produto} não existe.`, 404);
+        if(!await knex("produtos").where({ id: item.id }).first()){
+          throw new AppError(`O Produto com o ID: ${item.id} não existe.`, 404);
         }
       }
     }    
 
-    await knex("vendas").update({ tipo_pagamento, data_venda, id_revendedor, id_cliente }).where({ id }); 
+    await knex("vendas").update({ tipo_pagamento, data_venda, id_revendedor, id_cliente, updated_at: knex.fn.now() }).where({ id }); 
 
     if(itens && itens.length){            
       await knex("itens_da_venda").where({ id_venda: id }).delete();
 
       for (const item of itens) {
         await knex("itens_da_venda").insert({
-          id_produto: item.id_produto,
+          id_produto: item.id,
           id_venda: id,                    
           quantidade: item.quantidade,
           valor_unitario: item.valor_unitario,
@@ -183,8 +183,6 @@ export default class VendasRepository{
         })
       }
     }
-
-    await knex("vendas").update({updated_at: knex.fn.now()}).where({ id });
   }
 
   async checkIfExists({ id }){

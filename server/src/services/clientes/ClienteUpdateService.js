@@ -14,11 +14,12 @@ export default class ClienteUpdateService{
         throw new AppError("O Cliente especificado não existe.", 404);
     }
 
-    cliente.nome = nome ?? cliente.nome;
-    cliente.telefone = telefone ?? cliente.telefone;
-    cliente.email = email ?? cliente.email;   
-
-    const updated = await this.#repository.update({id, cliente});
+    const updated = await this.#repository.update({
+      id,
+      nome: nome ?? cliente.nome,
+      telefone: telefone ?? cliente.telefone,
+      email: email ?? cliente.email
+    });
 
     return updated;
   }

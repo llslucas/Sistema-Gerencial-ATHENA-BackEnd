@@ -34,9 +34,8 @@ export default class ClientesRepository{
     return deleted;
   }
 
-  async update({ id, cliente }){
-    const updated = await knex("clientes").update(cliente).where({ id });
-    await knex("clientes").update({updated_at: knex.fn.now()}).where({ id });
+  async update({ id, nome, telefone, email }){
+    const updated = await knex("clientes").update({ nome, telefone, email, updated_at: knex.fn.now() }).where({ id });    
     return updated;
   }
 

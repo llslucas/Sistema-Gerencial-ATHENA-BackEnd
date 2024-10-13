@@ -5,7 +5,7 @@
 export function up(knex) {
     return knex.schema.createTable("panos", table => {
       table.increments("id");
-      table.integer("revendedor_id").references("id").inTable("revendedores");
+      table.integer("id_revendedor").references("id").inTable("revendedores");
       table.text("observacoes");
   
       table.timestamp("created_at").defaultTo(knex.fn.now());

@@ -19,5 +19,5 @@ OBS: Necessário Node JS
 - mantenha aberto.
 
 ## Testes Automatizados
-O Back-End conta com testes automatizados, para executálos basta digitar o seguinte comando no terminal:
+O Back-End conta com testes automatizados, para executálos basta digitar o seguinte comando no terminal:  
 <code>npm run test</code>.

@@ -14,7 +14,7 @@ export default class ClientesController{
         
         const cliente_id = await service.execute({ nome, telefone, email });
 
-        response.status(201).json("Novo cliente cadastrado com sucesso: " + cliente_id);
+        return response.status(201).json("Novo cliente cadastrado com sucesso: " + cliente_id);
     }
 
     async show(request, response){
@@ -25,7 +25,7 @@ export default class ClientesController{
 
         const cliente = await service.execute({ id });
         
-        response.json(cliente);
+        return response.json(cliente);
     }
 
     async delete(request, response){

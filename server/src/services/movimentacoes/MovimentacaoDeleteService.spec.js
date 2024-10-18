@@ -33,7 +33,7 @@ describe("MovimentacaoDeleteService", () => {
       descricao: "Movimentação de Teste",
       data_movimentacao: "13/10/2021",
       itens:[{
-        id_produto,
+        id: id_produto,
         tipo_movimentacao: "ENTRADA",
         quantidade: 5,
         valor_unitario: 5,
@@ -55,7 +55,7 @@ describe("MovimentacaoDeleteService", () => {
   });
 
   it("A Movimentação deve ser excluída.", async() => {
-    await expect(movimentacaoDeleteService.execute({ id: id_movimentacao })).resolves.not.toEqual(0);
+    await expect(movimentacaoDeleteService.execute({ id: id_movimentacao })).resolves.toBeDefined();
   });
 
   it("Caso a Movimentação não exista, retornar um AppError.", async() => {

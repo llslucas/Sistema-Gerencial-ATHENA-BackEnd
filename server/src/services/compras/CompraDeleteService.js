@@ -10,12 +10,14 @@ export default class CompraDeleteService{
   }
 
   async execute({ id }){
+    const compra = await this.#repository.show({ id });
+
     const deleted = await this.#repository.delete({ id });
 
     if(!deleted){
       throw new AppError("A compra especificada não existe.", 404);
     }
 
-    return deleted;
+    return compra;
   }
 }

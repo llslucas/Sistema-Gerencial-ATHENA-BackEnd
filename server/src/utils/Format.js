@@ -56,7 +56,7 @@ export function formatVenda(venda){
 export function FormatMovimentacao(movimentacao){  
   const itensMovimentacao = movimentacao.itens.map(item => {
     return {
-      id_produto: item.id,
+      id: item.id,
       tipo_movimentacao: item.tipo_movimentacao,
       quantidade: item.quantidade,
       valor_unitario: item.valor_unitario,

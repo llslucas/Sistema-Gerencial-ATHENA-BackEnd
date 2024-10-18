@@ -10,12 +10,14 @@ export default class VendaDeleteService{
   }
 
   async execute({ id }){
+    const venda = await this.#repository.show({ id });
+
     const deleted = await this.#repository.delete({ id });
 
     if(!deleted){
       throw new AppError("A venda especificada não existe.", 404);
     }
 
-    return deleted;
+    return venda;
   }
 }

@@ -5,6 +5,10 @@ import VendaDeleteService from "../services/vendas/VendaDeleteService.js"
 import VendaSearchService from "../services/vendas/VendaSearchService.js";
 import VendaUpdateService from "../services/vendas/VendaUpdateService.js";
 
+import ProdutosRepository from "../repositories/ProdutosRepository.js";
+import EstoqueRepository from "../repositories/EstoqueRepository.js";
+import AtualizaEstoqueService from "../services/estoque/AtualizaEstoqueService.js";
+
 export default class VendasController{
     async create(request,response){
         const { tipo_pagamento, data_venda, id_revendedor, id_cliente, itens } = request.body;   
@@ -12,7 +16,15 @@ export default class VendasController{
         const repository = new VendasRepository();
         const service = new VendaCreateService(repository);
 
-        const id_venda = await service.execute({ tipo_pagamento, data_venda, id_revendedor, id_cliente, itens });       
+        const id_venda = await service.execute({ tipo_pagamento, data_venda, id_revendedor, id_cliente, itens });    
+        
+        const produtosRepository = new ProdutosRepository();
+        const estoqueRepository = new EstoqueRepository();
+        const atualizaEstoqueService = new AtualizaEstoqueService({ estoqueRepository, produtosRepository });
+
+        for(const item of itens){         
+            await atualizaEstoqueService.execute({id_produto: item.id});
+        }
         
         response.status(201).json(`Venda ${ id_venda } cadastrada com sucesso: `);
     }      
@@ -34,7 +46,15 @@ export default class VendasController{
         const repository = new VendasRepository();
         const service = new VendaDeleteService(repository);
 
-        await service.execute({ id });
+        const vendaExcluida = await service.execute({ id });
+
+        const produtosRepository = new ProdutosRepository();
+        const estoqueRepository = new EstoqueRepository();
+        const atualizaEstoqueService = new AtualizaEstoqueService({ estoqueRepository, produtosRepository });
+
+        for(const item of vendaExcluida.itens){         
+            await atualizaEstoqueService.execute({id_produto: item.id});
+        }
 
         return response.json("Venda excluída com sucesso!");        
     }
@@ -58,6 +78,14 @@ export default class VendasController{
         const service = new VendaUpdateService(repository);
 
         await service.execute({ id, tipo_pagamento, data_venda, id_revendedor, id_cliente, itens });
+
+        const produtosRepository = new ProdutosRepository();
+        const estoqueRepository = new EstoqueRepository();
+        const atualizaEstoqueService = new AtualizaEstoqueService({ estoqueRepository, produtosRepository });
+
+        for(const item of itens){         
+            await atualizaEstoqueService.execute({id_produto: item.id});
+        }
 
         return response.json("Venda alterada com sucesso!");  
     }  

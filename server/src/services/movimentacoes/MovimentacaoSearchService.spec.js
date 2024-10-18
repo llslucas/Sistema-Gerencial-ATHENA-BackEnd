@@ -36,7 +36,7 @@ describe("MovimentacaoSearchService", () => {
       descricao: "Movimentação de Teste",
       data_movimentacao: "13/10/2021",
       itens:[{
-        id_produto,
+        id: id_produto,
         tipo_movimentacao: "ENTRADA",
         quantidade: 5,
         valor_unitario: 5,
@@ -48,7 +48,7 @@ describe("MovimentacaoSearchService", () => {
       descricao: "Outro Teste",
       data_movimentacao: "14/10/2021",
       itens:[{
-        id_produto: id_produto2,
+        id: id_produto2,
         tipo_movimentacao: "SAÍDA",
         quantidade: 5,
         valor_unitario: 5,
@@ -72,7 +72,7 @@ describe("MovimentacaoSearchService", () => {
 
   it("Uma busca em branco deve retornar todas as movimentações.", async() => {
     const movimentacoes = await movimentacaoSearchService.execute({});
-    expect(movimentacoes).toHaveLength(2);
+    expect(movimentacoes).toHaveLength(4);
   });
 
   it("Uma busca pelo ID deve retornar a movimentação esperada.", async() => {
@@ -82,7 +82,7 @@ describe("MovimentacaoSearchService", () => {
       descricao: "Movimentação de Teste",
       data_movimentacao: "13/10/2021",
       itens:[{
-        id_produto,
+        id: id_produto,
         tipo_movimentacao: "ENTRADA",
         quantidade: 5,
         valor_unitario: 5,
@@ -102,7 +102,7 @@ describe("MovimentacaoSearchService", () => {
       descricao: "Movimentação de Teste",
       data_movimentacao: "13/10/2021",
       itens:[{
-        id_produto,
+        id: id_produto,
         tipo_movimentacao: "ENTRADA",
         quantidade: 5,
         valor_unitario: 5,
@@ -122,7 +122,7 @@ describe("MovimentacaoSearchService", () => {
       descricao: "Movimentação de Teste",
       data_movimentacao: "13/10/2021",
       itens:[{
-        id_produto,
+        id: id_produto,
         tipo_movimentacao: "ENTRADA",
         quantidade: 5,
         valor_unitario: 5,
@@ -131,8 +131,9 @@ describe("MovimentacaoSearchService", () => {
     }];
 
     const movimentacoesRecebidas = movimentacoes.map(FormatMovimentacao);
+    const movimentacoesFiltradas = movimentacoesRecebidas.filter(mov => mov.descricao !== "Saldo Inicial");
 
-    expect(movimentacoesRecebidas).toEqual(movimentacaoEsperada);
+    expect(movimentacoesFiltradas).toEqual(movimentacaoEsperada);
   }); 
 
   it("Uma busca incorreta deve retornar um array vazio.", async () => {

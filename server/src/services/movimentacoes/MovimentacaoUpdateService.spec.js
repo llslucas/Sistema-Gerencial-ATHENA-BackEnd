@@ -36,7 +36,7 @@ describe("MovimentacaoUpdateService", () => {
       descricao: "Movimentação de Teste",
       data_movimentacao: "13/10/2021",
       itens:[{
-        id_produto,
+        id: id_produto,
         tipo_movimentacao: "ENTRADA",
         quantidade: 5,
         valor_unitario: 5,
@@ -71,7 +71,7 @@ describe("MovimentacaoUpdateService", () => {
 
   it("Se um produto que não existe for informado, retornar um AppError", async() => {
     const itens = [{
-      id_produto: id_produto2 + 1,
+      id: id_produto2 + 1,
       tipo_movimentacao: "ENTRADA",
       quantidade: 5,
       valor_unitario: 5,
@@ -90,7 +90,7 @@ describe("MovimentacaoUpdateService", () => {
       descricao: "Nova Descrição",
       data_movimentacao: "13/10/2021",
       itens:[{
-        id_produto,
+        id: id_produto,
         tipo_movimentacao: "ENTRADA",
         quantidade: 5,
         valor_unitario: 5,
@@ -110,7 +110,7 @@ describe("MovimentacaoUpdateService", () => {
       descricao: "Movimentação de Teste",
       data_movimentacao: "20/10/2021",
       itens:[{
-        id_produto,
+        id: id_produto,
         tipo_movimentacao: "ENTRADA",
         quantidade: 5,
         valor_unitario: 5,
@@ -126,14 +126,14 @@ describe("MovimentacaoUpdateService", () => {
   it("Os itens devem ser alterados.", async() => {
     const novosItens = [
       {
-        id_produto: id_produto2,
+        id: id_produto2,
         tipo_movimentacao: "ENTRADA",
         quantidade: 5,
         valor_unitario: 5,
         valor_total: 25
       },
       {
-        id_produto,
+        id: id_produto,
         tipo_movimentacao: "ENTRADA",
         quantidade: 5,
         valor_unitario: 5,

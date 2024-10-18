@@ -14,7 +14,7 @@ export default class PanosController{
         
         const pano_id = await service.execute({ id_revendedor, observacoes, itens });
 
-        response.status(201).json("Novo pano cadastrado com sucesso: " + pano_id);
+        return response.status(201).json("Novo pano cadastrado com sucesso: " + pano_id);
     }    
 
     async show(request, response){

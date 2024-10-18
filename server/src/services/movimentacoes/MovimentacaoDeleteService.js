@@ -10,12 +10,14 @@ export default class MovimentacaoDeleteService{
   }
 
   async execute({ id }){
+    const movimentacao = await this.#repository.show({ id });
+
     const deleted = await this.#repository.delete({ id });
 
     if(!deleted){
       throw new AppError("A Movimentação especificada não existe.", 404);
     }
 
-    return deleted;
+    return movimentacao;
   }
 }

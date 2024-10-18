@@ -10,8 +10,8 @@ export default class MovimentacoesRepository{
     //Verificação dos itens
     if(itens){
       for(const item of itens){      
-        if(!await knex("produtos").where({ id: item.id_produto }).first()){
-          throw new AppError(`O Produto com o ID: ${ item.id_produto } não existe.`, 404);
+        if(!await knex("produtos").where({ id: item.id }).first()){
+          throw new AppError(`O Produto com o ID: ${ item.id } não existe.`, 404);
         }
       }
     };
@@ -23,7 +23,7 @@ export default class MovimentacoesRepository{
 
     for (const item of itens) {
       await knex("itens_da_movimentacao").insert({
-        id_produto: item.id_produto,
+        id_produto: item.id,
         id_movimentacao,
         tipo_movimentacao: item.tipo_movimentacao,
         quantidade: item.quantidade,
@@ -119,8 +119,8 @@ export default class MovimentacoesRepository{
     //Verificação dos itens
     if(itens){
       for(const item of itens){      
-        if(!await knex("produtos").where({ id: item.id_produto }).first()){
-          throw new AppError(`O Produto com o ID: ${ item.id_produto } não existe.`, 404);
+        if(!await knex("produtos").where({ id: item.id }).first()){
+          throw new AppError(`O Produto com o ID: ${ item.id } não existe.`, 404);
         }
       }
     };
@@ -134,7 +134,7 @@ export default class MovimentacoesRepository{
 
       for (const item of itens) {
         await knex("itens_da_movimentacao").insert({
-          id_produto: item.id_produto,
+          id_produto: item.id,
           id_movimentacao: id,
           tipo_movimentacao: item.tipo_movimentacao,
           quantidade: item.quantidade,
@@ -151,5 +151,5 @@ export default class MovimentacoesRepository{
     }else{
       throw Error("Essa função só pode ser executada em ambiente de testes.");
     }
-  };
+  };  
 }

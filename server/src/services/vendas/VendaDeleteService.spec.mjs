@@ -76,7 +76,7 @@ describe("VendaDeleteService", () =>{
   });
 
   it('A Venda deve ser excluída.', async () => {
-    await expect(vendaDeleteService.execute({ id: venda_id })).resolves.not.toEqual(0);
+    await expect(vendaDeleteService.execute({ id: venda_id })).resolves.toBeDefined();;
   });
 
   it('Caso a Venda não exista, retornar um AppError.', async () => {

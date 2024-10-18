@@ -54,7 +54,7 @@ describe("CompraDeleteService", () =>{
   });
 
   it('A Compra deve ser excluída.', async () => {
-    await expect(compraDeleteService.execute({ id: compra_id })).resolves.not.toEqual(0);
+    await expect(compraDeleteService.execute({ id: compra_id })).resolves.toBeDefined();;
   });
 
   it('Caso a Compra não exista, retornar um AppError.', async () => {

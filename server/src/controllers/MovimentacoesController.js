@@ -5,6 +5,10 @@ import MovimentacaoSearchService from "../services/movimentacoes/MovimentacaoSea
 import MovimentacaoShowService from "../services/movimentacoes/MovimentacaoShowService.js";
 import MovimentacaoUpdateService from "../services/movimentacoes/MovimentacaoUpdateService.js";
 
+import ProdutosRepository from "../repositories/ProdutosRepository.js";
+import EstoqueRepository from "../repositories/EstoqueRepository.js";
+import AtualizaEstoqueService from "../services/estoque/AtualizaEstoqueService.js";
+
 export default class MovimentacoesController{
     async create(request,response){
         const { descricao, data_movimentacao, itens } = request.body;     
@@ -12,9 +16,17 @@ export default class MovimentacoesController{
         const repository = new MovimentacoesRepository();
         const service = new MovimentacaoCreateService(repository);
         
-        const id_movimentacao = await service.execute({ descricao, data_movimentacao, itens });        
+        const id_movimentacao = await service.execute({ descricao, data_movimentacao, itens });    
         
-        response.status(201).json("Movimentação cadastrada com sucesso: " + id_movimentacao);               
+        const produtosRepository = new ProdutosRepository();
+        const estoqueRepository = new EstoqueRepository();
+        const atualizaEstoqueService = new AtualizaEstoqueService({ estoqueRepository, produtosRepository });
+
+        for(const item of itens){         
+            await atualizaEstoqueService.execute({id_produto: item.id});
+        }
+        
+        return response.status(201).json("Movimentação cadastrada com sucesso: " + id_movimentacao);               
     }    
 
     async show(request, response){
@@ -25,7 +37,7 @@ export default class MovimentacoesController{
 
         const movimentacao = await service.execute({ id });
         
-        response.json(movimentacao);            
+        return response.json(movimentacao);            
     }
 
     async delete(request, response){
@@ -34,9 +46,17 @@ export default class MovimentacoesController{
         const repository = new MovimentacoesRepository();
         const service = new MovimentacaoDeleteService(repository);
 
-        await service.execute({ id });
+        const movimentacao = await service.execute({ id });
 
-        response.json("Movimentação Excluída com sucesso!");
+        const produtosRepository = new ProdutosRepository();
+        const estoqueRepository = new EstoqueRepository();
+        const atualizaEstoqueService = new AtualizaEstoqueService({ estoqueRepository, produtosRepository });
+
+        for(const item of movimentacao.itens){         
+            await atualizaEstoqueService.execute({id_produto: item.id});
+        }
+
+        return response.json("Movimentação Excluída com sucesso!");
     }
 
     async index(request, response){    
@@ -58,6 +78,14 @@ export default class MovimentacoesController{
         const service = new MovimentacaoUpdateService(repository);
 
         await service.execute({ id, descricao, data_movimentacao, itens });
+
+        const produtosRepository = new ProdutosRepository();
+        const estoqueRepository = new EstoqueRepository();
+        const atualizaEstoqueService = new AtualizaEstoqueService({ estoqueRepository, produtosRepository });
+
+        for(const item of itens){         
+            await atualizaEstoqueService.execute({id_produto: item.id});
+        }
 
         return response.json("Movimentação alterada com sucesso!");  
     }  

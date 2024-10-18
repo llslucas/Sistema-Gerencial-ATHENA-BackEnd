@@ -14,7 +14,7 @@ export default class RevendedoresController{
 
         await service.execute({ nome, contato, comissao });
 
-        response.status(201).json("Revendedor cadastrado com sucesso!");
+        return response.status(201).json("Revendedor cadastrado com sucesso!");
     }
 
     async index(request, response){

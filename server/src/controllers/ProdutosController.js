@@ -14,7 +14,7 @@ export default class ProdutosController{
 
         await service.execute({ nome, descricao, categoria, tamanho, estoque_atual });
         
-        response.status(201).json("Produto cadastrado com sucesso!");
+        return response.status(201).json("Produto cadastrado com sucesso!");
     }   
 
     async show(request, response){

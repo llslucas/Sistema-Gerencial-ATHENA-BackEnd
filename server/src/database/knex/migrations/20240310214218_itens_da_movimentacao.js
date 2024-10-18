@@ -5,12 +5,12 @@
 export function up(knex) {
     return knex.schema.createTable("itens_da_movimentacao", table => {
         table.increments("id");
-        table.integer("id_produto").references("id").inTable("produtos");
+        table.integer("id_produto").references("id").inTable("produtos").onDelete("CASCADE");
         table.integer("id_movimentacao").references("id").inTable("movimentacoes").onDelete("CASCADE");
-        table.text("tipo_movimentacao");
-        table.integer("quantidade");        
+        table.enum("tipo_movimentacao", ["ENTRADA", "SAÍDA"], { useNative: true, enumName: "tipos" }).notNullable();
+        table.integer("quantidade");    
         table.float("valor_unitario");
-        table.float("valor_total");        
+        table.float("valor_total");
 
         table.timestamp("created_at").defaultTo(knex.fn.now());
         table.timestamp("updated_at").defaultTo(knex.fn.now());

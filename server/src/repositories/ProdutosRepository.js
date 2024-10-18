@@ -1,4 +1,5 @@
 import knex from "../database/knex/index.js";
+import MovimentacoesRepository from "./MovimentacoesRepository.js";
 
 export default class ProdutosRepository{
   async disconnect(){
@@ -12,7 +13,22 @@ export default class ProdutosRepository{
       categoria,
       tamanho,
       estoque_atual
-  });
+    });
+
+    // Cria a movimentação de Saldo Inicial.
+    const movimentacoesRepository = new MovimentacoesRepository();
+
+    await movimentacoesRepository.create({
+      descricao: "Saldo Inicial",
+      data_movimentacao: knex.fn.now(),
+      itens: [{
+        id: produto_id,
+        tipo_movimentacao: "ENTRADA",
+        quantidade: estoque_atual,
+        valor_unitario: 0,
+        valor_total: 0
+      }]
+    });
 
     return produto_id;
   }

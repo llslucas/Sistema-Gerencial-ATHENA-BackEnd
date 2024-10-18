@@ -1,6 +1,7 @@
 import AppError from "../../utils/AppError.js";
-
+import ProdutosRepository from "../../repositories/ProdutosRepository.js";
 export default class ProdutoCreateService{
+  /** @type ProdutosRepository */
   #repository;
 
   constructor(repository){    

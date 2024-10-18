@@ -5,15 +5,27 @@ import CompraSearchService from "../services/compras/CompraSearchService.js";
 import CompraShowService from "../services/compras/CompraShowService.js";
 import CompraUpdateService from "../services/compras/CompraUpdateService.js";
 
+import ProdutosRepository from "../repositories/ProdutosRepository.js";
+import EstoqueRepository from "../repositories/EstoqueRepository.js";
+import AtualizaEstoqueService from "../services/estoque/AtualizaEstoqueService.js";
+
 export default class ComprasController{
-    async create(request,response){
+    async create(request, response){
         const { numero_nota, fornecedor, data_compra, itens } = request.body;  
         const repository = new ComprasRepository();
         const service = new CompraCreateService(repository);
 
-        const id_compra = await service.execute({ numero_nota, fornecedor, data_compra, itens });
+        const id_compra = await service.execute({ numero_nota, fornecedor, data_compra, itens });  
+
+        const produtosRepository = new ProdutosRepository();
+        const estoqueRepository = new EstoqueRepository();
+        const atualizaEstoqueService = new AtualizaEstoqueService({ estoqueRepository, produtosRepository });
+
+        for(const item of itens){         
+            await atualizaEstoqueService.execute({id_produto: item.id});
+        }
     
-        response.status(201).json("Compra cadastrada com sucesso: " + id_compra);
+        return response.status(201).json("Compra cadastrada com sucesso: " + id_compra);
     }  
 
     async show(request, response){
@@ -33,7 +45,15 @@ export default class ComprasController{
         const repository = new ComprasRepository();
         const service = new CompraDeleteService(repository);
 
-        await service.execute({ id });
+        const compraExcluida = await service.execute({ id });
+
+        const produtosRepository = new ProdutosRepository();
+        const estoqueRepository = new EstoqueRepository();
+        const atualizaEstoqueService = new AtualizaEstoqueService({ estoqueRepository, produtosRepository });
+
+        for(const item of compraExcluida.itens){         
+            await atualizaEstoqueService.execute({id_produto: item.id});
+        }
 
         return response.status(200).json();
     }
@@ -57,6 +77,16 @@ export default class ComprasController{
         const service = new CompraUpdateService(repository);
 
         await service.execute({ id, numero_nota, fornecedor, data_compra, itens });
+
+        if(itens && itens.length){
+            const produtosRepository = new ProdutosRepository();
+            const estoqueRepository = new EstoqueRepository();
+            const atualizaEstoqueService = new AtualizaEstoqueService({ estoqueRepository, produtosRepository });
+
+            for(const item of itens){         
+                await atualizaEstoqueService.execute({id_produto: item.id});
+            }
+        }
 
         return response.json("Compra alterada com sucesso!");  
     }  

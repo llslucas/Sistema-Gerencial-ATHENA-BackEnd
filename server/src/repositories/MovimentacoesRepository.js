@@ -118,7 +118,7 @@ export default class MovimentacoesRepository{
   async update({ id, descricao, data_movimentacao, itens }){  
     //Verificação dos itens
     if(itens){
-      for(const item of itens){      
+      for(const item of itens){  
         if(!await knex("produtos").where({ id: item.id }).first()){
           throw new AppError(`O Produto com o ID: ${ item.id } não existe.`, 404);
         }

@@ -3,9 +3,7 @@ import EstoqueRepository from "../repositories/EstoqueRepository.js";
 import ProdutosRepository from "../repositories/ProdutosRepository.js";
 
 export default function atualizarEstoque(request, response, next){
-  const { itens } = request.body;
-
-  console.log(itens);
+  const { itens } = request.body; 
 
   if(id_produto){    
     const produtosRepository = new ProdutosRepository();

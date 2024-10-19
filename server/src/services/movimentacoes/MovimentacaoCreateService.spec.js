@@ -134,4 +134,24 @@ describe("MovimentacaoCreateService", () => {
       new AppError(`O Produto com o ID: ${ id_produto + 1 } não existe.`, 404)
     );
   });  
+
+  it("Caso a Movimentação seja de saída e não há estoque suficiente, retornar um AppError", async() => {
+    const MovimentacaoTeste = {
+      descricao: "Movimentação de Teste",
+      data_movimentacao: "13/10/2021",
+      itens:[{
+        id: id_produto,
+        tipo_movimentacao: "SAÍDA",
+        quantidade: 20,
+        valor_unitario: 5,
+        valor_total: 25
+      }]
+    };
+
+    await expect(movimentacaoCreateService.execute(MovimentacaoTeste)).rejects.toEqual(
+      new AppError(
+        `Não há saldo sufuciente do produto ${produtoTeste.nome} para realizar a venda. \n Saldo atual: ${produtoTeste.estoque_atual} \n Saldo Necessário: ${20}`
+      )
+    );
+  }); 
 });

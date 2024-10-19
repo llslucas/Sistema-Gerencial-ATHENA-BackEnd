@@ -10,8 +10,13 @@ export default class MovimentacoesRepository{
     //Verificação dos itens
     if(itens){
       for(const item of itens){      
-        if(!await knex("produtos").where({ id: item.id }).first()){
+        const produto = await knex("produtos").where({ id: item.id }).first();
+        if(!produto){
           throw new AppError(`O Produto com o ID: ${ item.id } não existe.`, 404);
+        }
+
+        if(item.tipo_movimentacao === "SAÍDA" && produto.estoque_atual - item.quantidade < 0){
+          throw new AppError(`Não há saldo sufuciente do produto ${produto.nome} para realizar a venda. \n Saldo atual: ${produto.estoque_atual} \n Saldo Necessário: ${item.quantidade}`);
         }
       }
     };
@@ -119,9 +124,23 @@ export default class MovimentacoesRepository{
     //Verificação dos itens
     if(itens){
       for(const item of itens){  
-        if(!await knex("produtos").where({ id: item.id }).first()){
+        const produto = await knex("produtos").where({ id: item.id }).first();       
+
+        if(!produto){
           throw new AppError(`O Produto com o ID: ${ item.id } não existe.`, 404);
         }
+
+        const item_venda = await knex("itens_da_movimentacao").where({id_produto: item.id, id_movimentacao: id}).first();       
+        
+        let quantidade = 0;
+
+        if(item_venda){
+          quantidade = item_venda.tipo_movimentacao === "ENTRADA" ? item_venda.quantidade * -1 : item_venda.quantidade;
+        }    
+
+        if(produto.estoque_atual < item.quantidade - quantidade){
+          throw new AppError(`Não há saldo sufuciente do produto ${produto.nome} para realizar a venda. \n Saldo atual: ${produto.estoque_atual} \n Saldo Necessário: ${item.quantidade - quantidade}`);
+        } 
       }
     };
 

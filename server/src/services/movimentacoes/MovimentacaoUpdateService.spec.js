@@ -4,6 +4,8 @@ import MovimentacaoUpdateService from "./MovimentacaoUpdateService.js";
 import { produtoTeste, produtoTeste2 } from "../../utils/Examples.js";
 import { FormatMovimentacao } from "../../utils/Format.js";
 import AppError from "../../utils/AppError.js";
+import EstoqueRepository from "../../repositories/EstoqueRepository.js";
+import AtualizaEstoqueService from "../estoque/AtualizaEstoqueService.js";
 
 describe("MovimentacaoUpdateService", () => {
   /** @type {MovimentacoesRepository} */
@@ -14,6 +16,12 @@ describe("MovimentacaoUpdateService", () => {
 
   /** @type {MovimentacaoUpdateService} */
   let movimentacaoUpdateService;
+
+  /** @type {EstoqueRepository} */
+  let estoqueRepository
+
+  /** @type {AtualizaEstoqueService} */
+  let atualizaEstoqueService
   
   let id_produto;
   let id_produto2;
@@ -23,6 +31,8 @@ describe("MovimentacaoUpdateService", () => {
     repository = new MovimentacoesRepository();
     movimentacaoUpdateService = new MovimentacaoUpdateService(repository);    
     produtosRepository = new ProdutosRepository();
+    estoqueRepository = new EstoqueRepository();    
+    atualizaEstoqueService = new AtualizaEstoqueService({ estoqueRepository, produtosRepository});
 
     await repository.deleteAll();    
     await produtosRepository.deleteAll();
@@ -45,6 +55,7 @@ describe("MovimentacaoUpdateService", () => {
     };    
 
     id_movimentacao = await repository.create(MovimentacaoTeste);
+    atualizaEstoqueService.execute({id_produto});
   });
   
   afterEach(async() => {
@@ -152,6 +163,24 @@ describe("MovimentacaoUpdateService", () => {
     const MovimentacaoAlterada = FormatMovimentacao(await repository.show({ id: id_movimentacao }));
 
     expect(MovimentacaoAlterada).toEqual(MovimentacaoEsperada);
+  }); 
+
+  it("Caso o a movimentação seja de Saída e a quantidade for maior que o estoque retornar um AppError", async() => {
+    const novosItens = [      
+      {
+        id: id_produto,
+        tipo_movimentacao: "SAÍDA",
+        quantidade: 20,
+        valor_unitario: 5,
+        valor_total: 25
+      }
+    ]     
+
+    await expect(movimentacaoUpdateService.execute({ id: id_movimentacao, itens: novosItens })).rejects.toEqual(
+      new AppError(
+        `Não há saldo sufuciente do produto ${produtoTeste.nome} para realizar a venda. \n Saldo atual: ${10} \n Saldo Necessário: ${25}`
+      )
+    );
   }); 
   
 });

@@ -1,4 +1,6 @@
-# Sistema Gerencial Athena
+# BackEnd - Sistema Gerencial Athena
+
+Projeto de Unidade Curricular e Extensão do Curso Engenharia de Software da UNIFAE.
 
 ## Inícialização do Projeto
 OBS: Necessário Node JS

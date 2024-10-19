@@ -61,7 +61,7 @@ describe("VendaSearchService", () =>{
       id_cliente,
       itens:[{
         id: id_produto,
-        quantidade: 10,
+        quantidade: 5,
         valor_unitario: 22.22,
         valor_total: 22.22 * 10,
         valor_comissao: 10
@@ -75,7 +75,7 @@ describe("VendaSearchService", () =>{
       id_cliente: id_cliente2,
       itens:[{
         id: id_produto2,
-        quantidade: 30,
+        quantidade: 5,
         valor_unitario: 25,
         valor_total: 25 * 10,
         valor_comissao: 5
@@ -116,7 +116,7 @@ describe("VendaSearchService", () =>{
       id_cliente,
       itens:[{
         id: id_produto,
-        quantidade: 10,
+        quantidade: 5,
         valor_unitario: 22.22,
         valor_total: 22.22 * 10,
         valor_comissao: 10
@@ -139,7 +139,7 @@ describe("VendaSearchService", () =>{
       id_cliente,
       itens:[{
         id: id_produto,
-        quantidade: 10,
+        quantidade: 5,
         valor_unitario: 22.22,
         valor_total: 22.22 * 10,
         valor_comissao: 10
@@ -162,7 +162,7 @@ describe("VendaSearchService", () =>{
       id_cliente,
       itens:[{
         id: id_produto,
-        quantidade: 10,
+        quantidade: 5,
         valor_unitario: 22.22,
         valor_total: 22.22 * 10,
         valor_comissao: 10
@@ -185,7 +185,7 @@ describe("VendaSearchService", () =>{
       id_cliente,
       itens:[{
         id: id_produto,
-        quantidade: 10,
+        quantidade: 5,
         valor_unitario: 22.22,
         valor_total: 22.22 * 10,
         valor_comissao: 10
@@ -208,7 +208,7 @@ describe("VendaSearchService", () =>{
       id_cliente,
       itens:[{
         id: id_produto,
-        quantidade: 10,
+        quantidade: 5,
         valor_unitario: 22.22,
         valor_total: 22.22 * 10,
         valor_comissao: 10
@@ -231,7 +231,7 @@ describe("VendaSearchService", () =>{
       id_cliente,
       itens:[{
         id: id_produto,
-        quantidade: 10,
+        quantidade: 5,
         valor_unitario: 22.22,
         valor_total: 22.22 * 10,
         valor_comissao: 10

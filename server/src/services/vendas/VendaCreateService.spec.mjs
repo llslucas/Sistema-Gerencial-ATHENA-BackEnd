@@ -24,7 +24,7 @@ describe("VendaCreateService", () =>{
   /** @type {VendaCreateService} */
   let vendaCreateService = null;  
 
-  let id_produto;
+  let id_produto;  
   let id_revendedor;
   let id_cliente;
 
@@ -218,4 +218,26 @@ describe("VendaCreateService", () =>{
     await expect(vendaCreateService.execute(vendaTeste)).rejects.toEqual(new AppError("Cliente inválido.", 404));
   });
 
+  it("Caso a quantidade do item a ser vendido ultrapasse o estoque atual, retornar um AppError.", async () => {
+    const vendaTeste = {           
+      tipo_pagamento: "PIX",  
+      data_venda: "08/10/2024",
+      id_revendedor,
+      id_cliente,
+      itens:[{
+        id: id_produto,
+        quantidade: 100,
+        valor_unitario: 22.22,
+        valor_total: 22.22 * 100,
+        valor_comissao: 10
+      }]
+    };    
+
+    await expect(vendaCreateService.execute(vendaTeste)).rejects.toEqual(
+      new AppError(
+        `Não há saldo sufuciente do produto ${produtoTeste.nome} para realizar a venda. \n Saldo atual: ${produtoTeste.estoque_atual} \n Saldo Necessário: ${100}`
+      )
+    );
+  });  
+  
 });

@@ -3,11 +3,13 @@ import VendaUpdateService from "./VendaUpdateService.js";
 import ProdutosRepository from "../../repositories/ProdutosRepository.js";
 import ClientesRepository from "../../repositories/ClientesRepository.js";
 import RevendedoresRepository from "../../repositories/RevendedoresRepository.js";
+import EstoqueRepository from "../../repositories/EstoqueRepository.js";
 import AppError from "../../utils/AppError.js";
 import { produtoTeste, produtoTeste2 } from "../../utils/Examples.js";
 import { revendedorTeste, revendedorTeste2 } from "../../utils/Examples.js";
 import { clienteTeste, clienteTeste2 } from "../../utils/Examples.js";
 import { formatVenda } from "../../utils/Format.js";
+import AtualizaEstoqueService from "../estoque/AtualizaEstoqueService.js";
 
 describe("VendaUpdateService", () =>{
   /** @type {VendasRepository} */
@@ -25,6 +27,12 @@ describe("VendaUpdateService", () =>{
   /** @type {VendaUpdateService} */
   let vendaUpdateService = null;  
 
+  /** @type {EstoqueRepository} */
+  let estoqueRepository = null;
+
+  /** @type {AtualizaEstoqueService} */
+  let atualizaEstoqueService = null;
+
   let venda_id;
   let id_produto;
   let id_produto2;
@@ -39,6 +47,8 @@ describe("VendaUpdateService", () =>{
     produtosRepository = new ProdutosRepository();
     clientesRepository = new ClientesRepository();
     revendedoresRepository = new RevendedoresRepository();
+    estoqueRepository = new EstoqueRepository();    
+    atualizaEstoqueService = new AtualizaEstoqueService({ estoqueRepository, produtosRepository});
 
     await repository.deleteAll();
     await produtosRepository.deleteAll();
@@ -69,6 +79,7 @@ describe("VendaUpdateService", () =>{
     };
 
     venda_id = await repository.create(vendaTeste);  
+    atualizaEstoqueService.execute({id_produto});
   })
 
   afterEach( async() => {
@@ -206,7 +217,7 @@ describe("VendaUpdateService", () =>{
       },
       {
         id: id_produto,
-        quantidade: 99,
+        quantidade: 10,
         valor_unitario: 33,
         valor_total: (33 * 10),
         valor_comissao: 20
@@ -227,6 +238,24 @@ describe("VendaUpdateService", () =>{
     const vendaAlterada = formatVenda(await repository.show({ id: venda_id }));    
 
     expect(vendaAlterada).toEqual(vendaEsperada);
+  });
+
+  it("Ao tentar atualizar um produto com uma quantidade maior que a disponível em estoque, retornar um AppError.", async() => {
+    const itens = [
+      {
+        id: id_produto,
+        quantidade: 15,
+        valor_unitario: 33,
+        valor_total: (33 * 10),
+        valor_comissao: 20
+      }          
+    ];  
+
+    await expect(vendaUpdateService.execute({ id: venda_id, itens })).rejects.toEqual(
+      new AppError(
+        `Não há saldo sufuciente do produto ${produtoTeste.nome} para alterar a venda. \n Saldo atual: ${0} \n Saldo Necessário: ${5}.`
+      )
+    );    
   });
   
   

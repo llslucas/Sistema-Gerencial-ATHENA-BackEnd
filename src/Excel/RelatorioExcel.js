@@ -3,6 +3,7 @@ import ExcelJS from 'exceljs';
 export default class RelatorioExcel{  
   #workbook;
   #sheet;
+  /** @type ExcelJS.Table */
   #tabela;
 
   constructor(){
@@ -40,6 +41,10 @@ export default class RelatorioExcel{
       this.#sheet.getColumn(i).width = value;
       i++;
     }
+  }
+
+  getRowCount(){
+    return this.#sheet.actualRowCount;
   }
 
   async export(caminho){

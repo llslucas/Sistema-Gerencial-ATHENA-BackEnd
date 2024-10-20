@@ -9,6 +9,7 @@ import movimentacoesRouter from './movimentacoes.routes.js';
 import vendasRouter from './vendas.routes.js';
 import usersRouter from './users.routes.js';
 import sessionsRouter from './sessions.routes.js';
+import relatoriosRouter from './relatorios.routes.js';
 
 const router = Router();
 
@@ -21,5 +22,6 @@ router.use('/movimentacoes', movimentacoesRouter);
 router.use('/vendas', vendasRouter);
 router.use('/users', usersRouter);
 router.use('/sessions', sessionsRouter);
+router.use('/relatorios', relatoriosRouter);
 
 export default router;

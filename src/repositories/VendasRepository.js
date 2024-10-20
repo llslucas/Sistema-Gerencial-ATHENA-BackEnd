@@ -18,8 +18,7 @@ export default class VendasRepository{
     if(!cliente){
       throw new AppError("Cliente inválido.", 404);
     }
-
-    //Verificação dos itens
+    
     //Verificação dos itens
     if(itens){
       for(const item of itens){      
@@ -152,6 +151,30 @@ export default class VendasRepository{
     });  
 
     return filteredVendas;
+  }
+
+  async getByDate({startDate, endDate}){
+    const vendas = await knex("vendas")
+                      .select([
+                        "vendas.data_venda",
+                        "vendas.tipo_pagamento",
+                        "clientes.nome as cliente",
+                        "revendedores.nome as revendedor",
+                        knex.raw("SUM(itens_da_venda.valor_total) as valor_total")                       
+                      ])                   
+                      .innerJoin("revendedores", "revendedores.id", "vendas.id_revendedor")
+                      .innerJoin("clientes", "clientes.id", "vendas.id_cliente")
+                      .innerJoin("itens_da_venda", "itens_da_venda.id_venda", "vendas.id")
+                      .whereBetween("vendas.data_venda", [startDate, endDate])
+                      .groupBy([
+                        "vendas.id"                                                
+                      ]);
+
+    if(!vendas){
+      return null;
+    }
+
+    return vendas;
   }
 
   async update({ id, tipo_pagamento, data_venda, id_revendedor, id_cliente, itens }){   

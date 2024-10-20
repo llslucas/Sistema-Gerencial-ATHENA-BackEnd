@@ -16,11 +16,11 @@ export default class ProdutosRepository{
     });
 
     // Cria a movimentação de Saldo Inicial.
-    const movimentacoesRepository = new MovimentacoesRepository();
-
+    const movimentacoesRepository = new MovimentacoesRepository();    
+    
     await movimentacoesRepository.create({
       descricao: "Saldo Inicial",
-      data_movimentacao: knex.fn.now(),
+      data_movimentacao: new Intl.DateTimeFormat('pt-BR').format(new Date()),
       itens: [{
         id: produto_id,
         tipo_movimentacao: "ENTRADA",

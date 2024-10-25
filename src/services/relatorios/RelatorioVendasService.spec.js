@@ -121,12 +121,12 @@ describe("RelatorioVendasService", () =>{
 
   it("A planilha deve conter duas vendas no intervalo de data de 8/10 a 15/10.", async () => {  
     const relatorio = await relatorioVendasService.execute({startDate: "08/10/2024", endDate: "15/10/2024"});
-    expect(relatorio.getRowCount()).toBe(3);    
+    expect(relatorio.getRowCount()).toBe(4);
   });  
 
   it("A planilha deve conter uma vendas no intervalo de data de 8/10 a 08/10.", async () => {  
     const relatorio = await relatorioVendasService.execute({startDate: "08/10/2024", endDate: "08/10/2024"});
-    expect(relatorio.getRowCount()).toBe(2);    
+    expect(relatorio.getRowCount()).toBe(3);
   });  
 
   it("Caso os campos startDate ou EndDate não sejam mencionados, retornar um AppError.", async () => { 

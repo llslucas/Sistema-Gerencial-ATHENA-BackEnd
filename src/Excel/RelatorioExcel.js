@@ -13,10 +13,16 @@ export default class RelatorioExcel{
     this.#sheet = this.#workbook.addWorksheet('Planilha1');        
   }
 
-  addTabela({headers, values}){
-    const columns = headers.map(value => {
+  addTabela({headers = [], values = [], totalsRowFunctions}){
+    const columns = headers.map(value => {      
       return {name: value, filterButton: true}
-    });    
+    });
+
+    if(totalsRowFunctions){
+      totalsRowFunctions.forEach((fn) => {
+        columns[fn.column - 1].totalsRowFunction = fn.function;
+      });
+    };    
 
     this.#tabela = this.#sheet.addTable({
       name: "Relatorio",
@@ -27,7 +33,8 @@ export default class RelatorioExcel{
         showRowStripes: true
       },
       columns,
-      rows: values
+      rows: values,
+      totalsRow: Boolean(totalsRowFunctions)
     });    
   }
 

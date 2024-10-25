@@ -36,7 +36,8 @@ export default class RelatorioVendasService{
 
     relatorio.addTabela({
       headers: ["Data da Venda", "Tipo do Pagamento", "Cliente", "Revendedor", "Valor da venda"],
-      values: vendasArray
+      values: vendasArray,
+      totalsRowFunctions: [{column: 5, function: "sum"}]
     });
 
     relatorio.setFormat({

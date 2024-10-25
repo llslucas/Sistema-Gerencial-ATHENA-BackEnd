@@ -8,8 +8,8 @@ const relatoriosRouter = Router();
 
 const relatoriosController = new RelatoriosController();
 
-// relatoriosRouter.use(ensureAuthenticated);
-// relatoriosRouter.use(verifyUserAuthorization(['admin', 'user']));
+relatoriosRouter.use(ensureAuthenticated);
+relatoriosRouter.use(verifyUserAuthorization(['admin', 'user']));
 
 relatoriosRouter.get("/vendas", relatoriosController.relatorioVendas);
 

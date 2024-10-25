@@ -1,6 +1,6 @@
 import ClientesRepository from "../repositories/ClientesRepository.js";
 import ClienteCreateService from "../services/clientes/ClienteCreateService.js";
-import ClienteShowService from "../services/clientes/clienteShowService.js";
+import ClienteShowService from "../services/clientes/ClienteShowService.js";
 import ClienteDeleteService from "../services/clientes/ClienteDeleteService.js";
 import ClienteSearchService from "../services/clientes/ClienteSearchService.js";
 import ClienteUpdateService from "../services/clientes/ClienteUpdateService.js";

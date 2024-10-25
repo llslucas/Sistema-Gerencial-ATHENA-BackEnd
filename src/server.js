@@ -6,7 +6,11 @@ import cors from 'cors';
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+    origin: 'https://athena-front.vercel.app',
+    credentials: true
+}));
+
 app.use(express.json());
 app.use(routes);
 

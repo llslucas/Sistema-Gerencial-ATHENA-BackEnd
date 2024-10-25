@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node ./src/server.js",
+    "start": "pm2-runtime start ecosystem.config.cjs --env production",
     "dev": "nodemon ./src/server.js",
     "migrate": "knex migrate:latest --env development && knex migrate:latest --env test",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --detectOpenHandles"
@@ -25,6 +25,7 @@
     "jsonwebtoken": "^9.0.2",
     "knex": "^3.1.0",
     "multer": "^1.4.5-lts.1",
+    "pm2": "^5.4.2",
     "sqlite": "^5.1.1",
     "sqlite3": "^5.1.7"
   },

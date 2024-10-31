@@ -1,5 +1,7 @@
 import UserRepository from '../repositories/UserRepository.js';
 import UserCreateService from '../services/users/UserCreateService.js';
+import UserDeleteService from '../services/users/UserDeleteService.js';
+import UserSearchService from '../services/users/UserSearchService.js';
 import UserUpdateService from '../services/users/UserUpdateService.js';
 import AppError from '../utils/AppError.js';
 
@@ -26,6 +28,28 @@ export default class UsersController {
         await userUpdateService.execute({ user_id, name, email, password, old_password })
 
         return response.json("Usuário atualizado com sucesso!");
+    }
+
+    async search(request, response){
+        const { search } = request.query;
+        
+        const userRepository = new UserRepository();
+        const userSearchService = new UserSearchService(userRepository);
+
+        await userSearchService.execute({ search });
+
+        return response.json("Usuário alterado com sucesso!");
+    }
+
+    async delete(request, response){
+        const { id } = request.params;
+
+        const userRepository = new UserRepository();
+        const userDeleteService = new UserDeleteService(userRepository);
+
+        await userDeleteService.execute({ id });
+
+        return response.json("Usuário excluído com sucesso!");
     }
 
     async validate(request, response){

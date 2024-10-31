@@ -5,6 +5,16 @@ export default class UserRepository{
     knex.destroy();
   };
 
+  async search({ search }){
+    const usuarios = await knex("usuarios")
+      .select(["id", "name", "email", "role" ])
+      .whereLike("name", `%${ search }%`)
+      .orWhereLike("email", `%${ search }%`)
+      .orderBy("id");
+    
+    return usuarios;
+  }
+
   /**
    * 
    * @param {{name: String, email: String, password: String}} user
@@ -36,6 +46,11 @@ export default class UserRepository{
     return updated;
   };
 
+  async delete({ id }){
+    const deleted = await knex("usuarios").where({ id }).delete();
+    return deleted;
+  }
+
   /**
    * 
    * @param {String} email 
@@ -51,7 +66,7 @@ export default class UserRepository{
    * @param {number} id 
    * @returns {Promise<{ id: number, name: String, email: String, password: String, role: String, created_at, updated_at }>} user
    */
-  async findById(id){    
+  async show({ id }){    
     const user = await knex("usuarios").where({id}).first();
     return user;
   };

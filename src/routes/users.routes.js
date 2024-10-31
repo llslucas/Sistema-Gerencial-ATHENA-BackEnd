@@ -9,6 +9,7 @@ const usersController = new UsersController();
 
 usersRouter.post("/", validarCampos(["name", "email", "password"]), usersController.create);
 usersRouter.put("/", ensureAuthenticated, usersController.update);
+usersRouter.get("/", ensureAuthenticated)
 usersRouter.get("/validate", ensureAuthenticated, usersController.validate);
 
 export default usersRouter;

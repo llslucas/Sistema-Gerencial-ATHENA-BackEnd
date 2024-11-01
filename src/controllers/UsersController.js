@@ -30,15 +30,15 @@ export default class UsersController {
         return response.json("Usuário atualizado com sucesso!");
     }
 
-    async search(request, response){
+    async index(request, response){
         const { search } = request.query;
         
         const userRepository = new UserRepository();
         const userSearchService = new UserSearchService(userRepository);
 
-        await userSearchService.execute({ search });
+        const usuarios = await userSearchService.execute({ search });
 
-        return response.json("Usuário alterado com sucesso!");
+        return response.json(usuarios);
     }
 
     async delete(request, response){
@@ -57,7 +57,7 @@ export default class UsersController {
 
         const userRepository = new UserRepository();
 
-        const checkUserExists = await userRepository.findById(id);
+        const checkUserExists = await userRepository.show({ id });
 
         if(!checkUserExists){
             throw new AppError("JWT token não informado", 401);

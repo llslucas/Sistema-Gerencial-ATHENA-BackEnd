@@ -8,8 +8,9 @@ const usersRouter = Router();
 const usersController = new UsersController();
 
 usersRouter.post("/", validarCampos(["name", "email", "password"]), usersController.create);
-usersRouter.put("/", ensureAuthenticated, usersController.update);
-usersRouter.get("/", ensureAuthenticated)
+usersRouter.patch("/", ensureAuthenticated, usersController.update);
+usersRouter.get("/", ensureAuthenticated, usersController.index);
+usersRouter.delete("/:id", ensureAuthenticated, usersController.delete);
 usersRouter.get("/validate", ensureAuthenticated, usersController.validate);
 
 export default usersRouter;

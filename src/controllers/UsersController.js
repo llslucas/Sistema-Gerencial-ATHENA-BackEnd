@@ -1,5 +1,7 @@
 import UserRepository from '../repositories/UserRepository.js';
 import UserCreateService from '../services/users/UserCreateService.js';
+import UserDeleteService from '../services/users/UserDeleteService.js';
+import UserSearchService from '../services/users/UserSearchService.js';
 import UserUpdateService from '../services/users/UserUpdateService.js';
 import AppError from '../utils/AppError.js';
 
@@ -28,12 +30,34 @@ export default class UsersController {
         return response.json("Usuário atualizado com sucesso!");
     }
 
+    async index(request, response){
+        const { search } = request.query;
+        
+        const userRepository = new UserRepository();
+        const userSearchService = new UserSearchService(userRepository);
+
+        const usuarios = await userSearchService.execute({ search });
+
+        return response.json(usuarios);
+    }
+
+    async delete(request, response){
+        const { id } = request.params;
+
+        const userRepository = new UserRepository();
+        const userDeleteService = new UserDeleteService(userRepository);
+
+        await userDeleteService.execute({ id });
+
+        return response.json("Usuário excluído com sucesso!");
+    }
+
     async validate(request, response){
         const id = request.user.id;
 
         const userRepository = new UserRepository();
 
-        const checkUserExists = await userRepository.findById(id);
+        const checkUserExists = await userRepository.show({ id });
 
         if(!checkUserExists){
             throw new AppError("JWT token não informado", 401);

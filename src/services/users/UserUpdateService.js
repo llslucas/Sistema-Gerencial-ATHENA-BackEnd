@@ -9,7 +9,7 @@ export default class UserUpdateService{
   }
 
   async execute({ user_id, name, email, role, password, old_password }){        
-    const user = await this.repository.findById(user_id);
+    const user = await this.repository.show({id: user_id});
     
     if(!user)
       throw new AppError('Usuário não encontrado');        
@@ -48,7 +48,7 @@ export default class UserUpdateService{
     
     this.repository.update(user);
 
-    const updatedUser = await this.repository.findById(user_id);
+    const updatedUser = await this.repository.show({id: user_id});
 
     return updatedUser
   }

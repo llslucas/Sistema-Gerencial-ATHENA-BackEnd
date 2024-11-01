@@ -37,3 +37,15 @@ export const clienteTeste2 = {
   telefone: "123456",
   email: "teste@email.com"      
 };
+
+export const user = {
+  name: "Teste Usuário 1",
+  email: "user@test.com",
+  password: "1234"
+};  
+
+export const user2 = {
+  name: "Teste Usuário 2",
+  email: "creation@test.com",
+  password: "12345"
+};  
